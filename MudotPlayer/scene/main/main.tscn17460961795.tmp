@@ -1,0 +1,433 @@
+[gd_scene load_steps=25 format=3 uid="uid://vd141vt5c7jo"]
+
+[ext_resource type="Theme" uid="uid://bnv7dj640tkym" path="res://style/main.tres" id="1_itxqv"]
+[ext_resource type="Script" uid="uid://c2l42vitgbe23" path="res://scene/main/title_bar.gd" id="2_qtsyf"]
+[ext_resource type="Texture2D" uid="uid://qciwcs3qhowc" path="res://texture/expand.svg" id="2_v0l8b"]
+[ext_resource type="Texture2D" uid="uid://mui00e4hh85p" path="res://texture/close.svg" id="3_brvut"]
+[ext_resource type="Texture2D" uid="uid://cfgebxjeaas46" path="res://texture/minimize.svg" id="4_0ha60"]
+[ext_resource type="Script" uid="uid://ce1y0q1t5sy6s" path="res://scene/main/main.gd" id="6_siuy0"]
+[ext_resource type="Texture2D" uid="uid://bius42dsr0wu2" path="res://texture/add.svg" id="7_onf7c"]
+[ext_resource type="Texture2D" uid="uid://buf8gjgdjcfcd" path="res://test/test.png" id="8_onf7c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4j5ol"]
+bg_color = Color(0.07058824, 0.45490196, 0.84313726, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+
+[sub_resource type="Animation" id="Animation_siuy0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Close:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:size:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_qtsyf"]
+resource_name = "close_rotate"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Close:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.141592653589793]
+}
+
+[sub_resource type="Animation" id="Animation_b8g54"]
+resource_name = "expand_sidebar"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:size:x")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1024.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b8g54"]
+_data = {
+&"RESET": SubResource("Animation_siuy0"),
+&"close_rotate": SubResource("Animation_qtsyf"),
+&"expand_sidebar": SubResource("Animation_b8g54")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snrr3"]
+bg_color = Color(0.10980393, 0.10980393, 0.10980393, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b8g54"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36wa8"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.22773793, 0.22773793, 0.2277379, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n5o2v"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.22773793, 0.22773793, 0.2277379, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = false
+
+[sub_resource type="Animation" id="Animation_onf7c"]
+resource_name = "start"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SearchBox:size:x")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 658.0]
+}
+
+[sub_resource type="Animation" id="Animation_si3g0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SearchBox:size:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [658.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pidc3"]
+_data = {
+&"RESET": SubResource("Animation_si3g0"),
+&"start": SubResource("Animation_onf7c")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pidc3"]
+bg_color = Color(0.13111877, 0.13111871, 0.13111871, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8g54"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8156863, 0.8156863, 0.8156863, 0.5764706)
+corner_radius_top_left = 482
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 482
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onf7c"]
+bg_color = Color(0.9135316, 0.91353166, 0.91353154, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8156863, 0.8156863, 0.8156863, 0.5764706)
+corner_radius_top_left = 160
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 160
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si3g0"]
+bg_color = Color(0.021434637, 0.021434635, 0.021434633, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+corner_radius_top_left = 53
+corner_radius_bottom_left = 53
+corner_detail = 20
+
+[node name="Panel" type="Panel"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_itxqv")
+
+[node name="TitleBar" type="Panel" parent="."]
+z_index = 999
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 59.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4j5ol")
+script = ExtResource("2_qtsyf")
+
+[node name="ExpandSidebar" type="Button" parent="TitleBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -19.0
+offset_right = 74.0
+offset_bottom = 19.0
+grow_vertical = 2
+icon = ExtResource("2_v0l8b")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Close" type="Button" parent="TitleBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -61.360596
+offset_top = -17.977654
+offset_right = -12.360596
+offset_bottom = 20.022346
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(24.180298, 18.988827)
+icon = ExtResource("3_brvut")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Minimize" type="Button" parent="TitleBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -19.0
+offset_right = -89.0
+offset_bottom = 19.0
+grow_horizontal = 0
+grow_vertical = 2
+icon = ExtResource("4_0ha60")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TitleBar"]
+libraries = {
+&"": SubResource("AnimationLibrary_b8g54")
+}
+
+[node name="ColorRect" type="ColorRect" parent="TitleBar"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 86.0
+offset_top = -20.0
+offset_right = 86.0
+offset_bottom = 20.0
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleBar/ColorRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Favorite" type="Button" parent="TitleBar/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "收藏"
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_siuy0")
+
+[node name="Panel3" type="Panel" parent="Main"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -950.0
+offset_right = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_snrr3")
+
+[node name="SearchBox" type="Panel" parent="Main/Panel3"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -329.0
+offset_top = 67.0
+offset_right = 329.0
+offset_bottom = 125.0
+grow_horizontal = 2
+
+[node name="LineEdit" type="LineEdit" parent="Main/Panel3/SearchBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/selection_color = Color(0.23598999, 0.23598999, 0.23598996, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/focus = SubResource("StyleBoxEmpty_b8g54")
+alignment = 1
+context_menu_enabled = false
+flat = true
+caret_blink = true
+
+[node name="Add" type="Button" parent="Main/Panel3/SearchBox"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -20.0
+offset_right = 52.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_36wa8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_36wa8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n5o2v")
+icon = ExtResource("7_onf7c")
+expand_icon = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Main/Panel3"]
+libraries = {
+&"": SubResource("AnimationLibrary_pidc3")
+}
+autoplay = "start"
+
+[node name="Panel2" type="Panel" parent="Main"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pidc3")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Main"]
+clip_children = 2
+layout_mode = 1
+offset_left = 1417.5
+offset_right = 2382.5
+offset_bottom = 965.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b8g54")
+
+[node name="TextureRect" type="TextureRect" parent="Main/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_onf7c")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Panel" type="Panel" parent="Main/Panel"]
+layout_mode = 1
+offset_left = 321.66666
+offset_top = 321.66666
+offset_right = 643.3333
+offset_bottom = 643.3333
+theme_override_styles/panel = SubResource("StyleBoxFlat_onf7c")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel2" type="Panel" parent="Main/Panel/Panel"]
+layout_mode = 0
+offset_left = 107.22222
+offset_top = 107.22222
+offset_right = 214.44444
+offset_bottom = 214.44444
+theme_override_styles/panel = SubResource("StyleBoxFlat_si3g0")
+
+[connection signal="gui_input" from="TitleBar" to="TitleBar" method="_on_gui_input"]
+[connection signal="pressed" from="TitleBar/ExpandSidebar" to="TitleBar" method="_on_expand_sidebar_pressed"]
+[connection signal="mouse_entered" from="TitleBar/Close" to="TitleBar" method="_on_close_mouse_entered"]
+[connection signal="mouse_exited" from="TitleBar/Close" to="TitleBar" method="_on_close_mouse_exited"]
+[connection signal="pressed" from="TitleBar/Close" to="TitleBar" method="_on_close_pressed"]
+[connection signal="pressed" from="TitleBar/Minimize" to="TitleBar" method="_on_minimize_pressed"]
+[connection signal="resized" from="Main" to="Main" method="_on_main_resized"]
+[connection signal="pressed" from="Main/Panel3/SearchBox/Add" to="Main" method="add_file"]

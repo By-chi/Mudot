@@ -1,0 +1,72 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="MudotPlayer"
+run/main_scene="uid://vd141vt5c7jo"
+run/print_header=false
+config/auto_accept_quit=false
+config/features=PackedStringArray("4.5", "GL Compatibility")
+run/delta_smoothing=false
+boot_splash/bg_color=Color(0, 0, 0, 0)
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/image="uid://nqg7vlero43y"
+config/icon="res://icon.svg"
+boot_splash/minimum_display_time=2000
+
+[autoload]
+
+Global="*res://scene/Global.tscn"
+SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
+
+[display]
+
+window/size/viewport_width=1900
+window/size/viewport_height=1024
+window/size/borderless=true
+window/size/transparent=true
+window/size/sharp_corners=true
+window/size/minimize_disabled=true
+window/size/maximize_disabled=true
+window/subwindows/embed_subwindows=false
+window/per_pixel_transparency/allowed=true
+window/vsync/vsync_mode=0
+mouse_cursor/custom_image="uid://ck5gq06bcj1iv"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Dragonfruit/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+
+[filesystem]
+
+import/fbx2gltf/enabled=false
+import/blender/enabled=false
+
+[gui]
+
+fonts/dynamic_fonts/use_oversampling=false
+theme/default_font_antialiasing=0
+theme/custom_font="uid://48h72b28kkpm"
+
+[input]
+
+mouse_left={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(181, 29),"global_position":Vector2(197, 113),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+
+[rendering]
+
+anti_aliasing/screen_space_roughness_limiter/enabled=false
+environment/defaults/default_clear_color=Color(0.7294118, 0.7294118, 0.7294118, 1)
+viewport/transparent_background=true
