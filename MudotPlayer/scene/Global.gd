@@ -1,7 +1,76 @@
 extends Node
+#region 对接编辑器的内容
+var in_editor:=false
+var current_mudot_file_path:String
+func load_script_variables_from_json(node: Node, json_path: String, reference_node: Node) -> void:
+	if !FileAccess.file_exists(json_path):
+		print("变量文件不存在: ", json_path)
+		return
+	var file = FileAccess.open(json_path, FileAccess.READ)
+	if !file:
+		print("无法打开变量文件: ", json_path)
+		return
+	var variables_data = JSON.parse_string(file.get_as_text())
+	file.close()
+	if variables_data:
+		restore_script_variables(node, variables_data, reference_node)
+func restore_script_variables(node: Node, data: Dictionary, reference_node: Node) -> void:
+	var rel_path = str(reference_node.get_path_to(node))
+	if data.has(rel_path):
+		
+		var node_data = data[rel_path]
+		var has_can_set_property_names:=false
+		for  i in node.get_property_list():
+			if i["name"]=="can_set_property_names":
+				has_can_set_property_names=true
+		if has_can_set_property_names:
+			for var_name in node.can_set_property_names.keys():
+				var value=node_data[var_name]
+				if node.can_set_property_names[var_name][0] == "Color":
+					if typeof(value) == TYPE_STRING:
+						value = Color(value)
+					elif typeof(value) == TYPE_ARRAY:
+						value = Color(value[0], value[1], value[2], value[3] if value.size() > 3 else 1.0)
+					
+				elif node.can_set_property_names[var_name][0] == "Vector2":
+					value=Vector2(value[0],value[1])
+				node.set(var_name, value)
+	# 递归处理子节点
+	for child in node.get_children():
+		restore_script_variables(child, data, reference_node)  # 传递参考节点
+func get_type_default_from_string(type_str:String)->Variant:
+	if type_str=="String":
+		return String()
+	elif type_str=="int":
+		return int()
+	elif type_str=="float":
+		return float()
+	elif type_str=="Color":
+		return Color()
+	elif type_str=="Vector2":
+		return Vector2()
+	elif type_str=="bool":
+		return bool()
+	return null
+func get_type_default_from_set_property_names(set_property_names:Dictionary)->Array:
+	var arr:Array
+	for i in set_property_names:
+		if set_property_names[i].size()==3:
+			arr.append([i,set_property_names[i][2]])
+		else:
+			var type=set_property_names[i][0]
+			arr.append([i,get_type_default_from_string(type)])
+	return arr
+#endregion
 
 #region save
-
+func get_data_from_json(path:String)->Variant:
+	var file=FileAccess.open(path,FileAccess.READ)
+	if file==null:
+		return null
+	var data = JSON.parse_string(file.get_as_text())
+	file.close()
+	return data
 var user_leven:
 	set(value):
 		user_leven=value
@@ -80,14 +149,30 @@ func _on_tooltips_timer_timeout(text:String) -> void:
 #endregion
 #region file_load
 func load_image_from_absolute_path(path: String) -> Texture2D:
+	if path.ends_with("/"):
+		return Texture2D.new()
 	var image = Image.new()
 	var err = image.load(path)
 	if err != OK:
 		return null
 	var texture = ImageTexture.create_from_image(image)
 	return texture
- 
 #endregion
 func _ready() -> void:
 	get_window().connect("close_requested",close_window)
-	
+func _process(delta: float) -> void:
+	if target_size!=Vector2i.ZERO:
+		get_window().size=get_window().size*0.7+target_size*0.3
+		get_window().position=start_window_central_position-get_window().size/2
+	if (get_window().size-target_size).length_squared()<=5:
+		get_window().size=target_size
+		target_size=Vector2i.ZERO
+#region 其他功能
+var target_size:=Vector2i.ZERO
+var start_window_central_position
+func resize_window(size:Vector2i)->void:
+	if size<get_window().min_size:
+		return
+	target_size=size
+	start_window_central_position=get_window().position+get_window().size/2
+#endregion

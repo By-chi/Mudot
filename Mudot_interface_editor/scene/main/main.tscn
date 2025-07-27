@@ -1,0 +1,286 @@
+[gd_scene load_steps=21 format=3 uid="uid://q50i3baf4m16"]
+
+[ext_resource type="Script" uid="uid://dt11m8uqkhywf" path="res://scene/main/main.gd" id="1_6vuhr"]
+[ext_resource type="Script" uid="uid://d2lmeual4shs2" path="res://scene/main/head.gd" id="1_am8c5"]
+[ext_resource type="Script" uid="uid://ci1fa6fxsbyo3" path="res://scene/main/elements_grid.gd" id="2_0imob"]
+[ext_resource type="Script" uid="uid://lrcisyy44xpd" path="res://scene/main/tool_bar.gd" id="3_b8g54"]
+[ext_resource type="Texture2D" uid="uid://btb52speaijb2" path="res://texture/mouse.svg" id="3_siuy0"]
+[ext_resource type="Script" uid="uid://m1335q84qhuo" path="res://scene/main/property_set.gd" id="4_a0c6e"]
+[ext_resource type="Script" uid="uid://8nthay8pvj1t" path="res://scene/main/element_node_list.gd" id="4_qtsyf"]
+[ext_resource type="Texture2D" uid="uid://bxf7t84k0coew" path="res://texture/move.svg" id="5_onf7c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nakj2"]
+bg_color = Color(0.97604996, 0.97604996, 0.97604984, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am8c5"]
+bg_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8g54"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si3g0"]
+bg_color = Color(0.50653094, 0.6145935, 0.713419, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pidc3"]
+bg_color = Color(0.55276805, 0.60667014, 0.670317, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0imob"]
+bg_color = Color(0.1918605, 0.22008659, 0.2596054, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+anti_aliasing = false
+
+[sub_resource type="SVGTexture" id="SVGTexture_am8c5"]
+
+[sub_resource type="SVGTexture" id="SVGTexture_a0c6e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtsyf"]
+bg_color = Color(0.14509805, 0.16862746, 0.20392157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onf7c"]
+bg_color = Color(0.14509805, 0.16862746, 0.20392157, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a0c6e"]
+bg_color = Color(0.26209778, 0.2739852, 0.27661762, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6vuhr"]
+bg_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[node name="Control" type="Panel" node_paths=PackedStringArray("inspectoscope", "property_list", "elements", "element_node_list", "tool_bar", "main_scene")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nakj2")
+script = ExtResource("1_6vuhr")
+inspectoscope = NodePath("Body/SplitContainer/Right/PropertySet")
+property_list = NodePath("Body/SplitContainer/Right/PropertySet/VBoxContainer")
+elements = NodePath("Body/SplitContainer/SplitContainer/UP/Panel")
+element_node_list = NodePath("Body/SplitContainer/SplitContainer/Down/Panel")
+tool_bar = NodePath("Head/ToolBar")
+main_scene = NodePath("Body/SplitContainer/Right/Centre/Control")
+
+[node name="Head" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_am8c5")
+script = ExtResource("1_am8c5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Head"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 5.0
+offset_right = -1549.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Project" type="Button" parent="Head/HBoxContainer"]
+layout_mode = 2
+text = "项目"
+
+[node name="ToolBar" type="HBoxContainer" parent="Head"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -20.0
+offset_right = -12.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 16
+script = ExtResource("3_b8g54")
+
+[node name="Select" type="Button" parent="Head/ToolBar"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_b8g54")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_si3g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pidc3")
+icon = ExtResource("3_siuy0")
+expand_icon = true
+
+[node name="Move" type="Button" parent="Head/ToolBar"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_b8g54")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_si3g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pidc3")
+icon = ExtResource("5_onf7c")
+expand_icon = true
+
+[node name="Body" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 59.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0imob")
+script = ExtResource("1_am8c5")
+
+[node name="SplitContainer" type="SplitContainer" parent="Body"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+theme_override_icons/h_grabber = SubResource("SVGTexture_am8c5")
+
+[node name="SplitContainer" type="SplitContainer" parent="Body/SplitContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+theme_override_icons/v_grabber = SubResource("SVGTexture_a0c6e")
+vertical = true
+
+[node name="UP" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
+custom_minimum_size = Vector2(350, 200)
+layout_mode = 2
+vertical_scroll_mode = 0
+
+[node name="Panel" type="Panel" parent="Body/SplitContainer/SplitContainer/UP"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtsyf")
+script = ExtResource("2_0imob")
+
+[node name="GridContainer" type="GridContainer" parent="Body/SplitContainer/SplitContainer/UP/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 2
+
+[node name="Down" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
+custom_minimum_size = Vector2(350, 200)
+layout_mode = 2
+vertical_scroll_mode = 0
+
+[node name="Panel" type="Panel" parent="Body/SplitContainer/SplitContainer/Down"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtsyf")
+script = ExtResource("4_qtsyf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/SplitContainer/Down/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Right" type="SplitContainer" parent="Body/SplitContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+theme_override_icons/h_grabber = SubResource("SVGTexture_am8c5")
+
+[node name="PropertySet" type="Panel" parent="Body/SplitContainer/Right"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_onf7c")
+script = ExtResource("4_a0c6e")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/Right/PropertySet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Centre" type="Panel" parent="Body/SplitContainer/Right"]
+clip_contents = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a0c6e")
+
+[node name="Control" type="Control" parent="Body/SplitContainer/Right/Centre"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tail" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -57.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6vuhr")
+script = ExtResource("1_am8c5")
+
+[connection signal="pressed" from="Head/HBoxContainer/Project" to="Head" method="_on_project_pressed"]
+[connection signal="pressed" from="Head/ToolBar/Select" to="Head/ToolBar" method="_on_select_pressed"]
+[connection signal="pressed" from="Head/ToolBar/Move" to="Head/ToolBar" method="_on_move_pressed"]

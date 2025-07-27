@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1xpkci68app3"]
+
+[ext_resource type="Script" uid="uid://bll474n2t2m78" path="res://scene/main/project_window.gd" id="1_5sxrp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2vqg"]
+bg_color = Color(0.19064951, 0.20574987, 0.23603474, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+anti_aliasing = false
+
+[node name="Window" type="Window"]
+disable_3d = true
+oversampling_override = 1.0
+title = "项目"
+initial_position = 2
+size = Vector2i(800, 500)
+transient = true
+exclusive = true
+minimize_disabled = true
+maximize_disabled = true
+script = ExtResource("1_5sxrp")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u2vqg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mudot" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 31.0
+text = "项目Mudot文件:"
+
+[node name="Mudot" type="LineEdit" parent="Panel/Mudot"]
+layout_mode = 0
+offset_left = 215.0
+offset_top = 4.0
+offset_right = 325.0
+offset_bottom = 29.0
+
+[node name="Button" type="Button" parent="Panel/Mudot"]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 4.0
+offset_right = 391.0
+offset_bottom = 29.0
+text = "打开"
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="text_submitted" from="Panel/Mudot/Mudot" to="." method="_on_mudot_text_submitted"]
+[connection signal="pressed" from="Panel/Mudot/Button" to="." method="_on_mudot_pressed"]

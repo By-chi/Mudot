@@ -11,3 +11,16 @@ res://scene/main/window.gd
 res://scene/main/main.tscn
 res://scene/main/main.gd
 res://scene/Global.gd
+res://addons/Dragonfruit/plugin.gd
+res://addons/Dragonfruit/system/scenes/dragonfruit_panel.tscn
+res://addons/Dragonfruit/system/scenes/dragonfruit_user_video_scene.tscn
+res://addons/Dragonfruit/system/scripts/dragonfruit.gd
+res://addons/Dragonfruit/system/scripts/dragonfruit_saved_settings.gd
+res://addons/Dragonfruit/system/scripts/resource_picker.gd
+res://addons/script-ide/plugin.gd
+res://addons/script-ide/override/override_panel.gd
+res://addons/script-ide/quickopen/quick_open_panel.gd
+res://scene/main/element_list_element_ui.tscn
+res://scene/main/element_ui_button.tscn
+res://scene/main/project_window.tscn
+res://scene/main/music_tab_element.tscn

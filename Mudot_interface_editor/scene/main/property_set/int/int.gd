@@ -1,0 +1,11 @@
+extends PropertySetUI
+func _ready() -> void:
+	update()
+	super._ready()
+func _on_spin_box_value_changed(new_value:  float) -> void:
+	value=new_value
+func update()->void:
+	var new_value
+	new_value=host.get(property_name)
+	$SpinBox.value=new_value
+	value=int(new_value)

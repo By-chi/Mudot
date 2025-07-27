@@ -1,0 +1,47 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bnv7dj640tkym"]
+
+[ext_resource type="FontFile" uid="uid://48h72b28kkpm" path="res://font/ZiTiQuanWeiJunHei-W1-2.ttf" id="1_d83q6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ckwl1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khli7"]
+bg_color = Color(0.21176471, 0.23921569, 0.2901961, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d83q6"]
+bg_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ckwl1"]
+bg_color = Color(0.97604996, 0.97604996, 0.97604984, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+anti_aliasing = false
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 22
+Button/fonts/font = ExtResource("1_d83q6")
+Button/styles/focus = SubResource("StyleBoxEmpty_ckwl1")
+Button/styles/hover = SubResource("StyleBoxFlat_khli7")
+Button/styles/normal = SubResource("StyleBoxFlat_d83q6")
+Button/styles/pressed = SubResource("StyleBoxFlat_khli7")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 30
+Label/fonts/font = ExtResource("1_d83q6")
+Panel/styles/panel = SubResource("StyleBoxFlat_ckwl1")

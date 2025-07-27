@@ -21,7 +21,6 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/image="uid://nqg7vlero43y"
 config/icon="res://icon.svg"
-boot_splash/minimum_display_time=2000
 
 [autoload]
 
@@ -39,12 +38,12 @@ window/size/minimize_disabled=true
 window/size/maximize_disabled=true
 window/subwindows/embed_subwindows=false
 window/per_pixel_transparency/allowed=true
-window/vsync/vsync_mode=0
+window/vsync/vsync_mode=3
 mouse_cursor/custom_image="uid://ck5gq06bcj1iv"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Dragonfruit/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/signal_lens/plugin.cfg")
+enabled=PackedStringArray("res://addons/Dragonfruit/plugin.cfg", "res://addons/script-ide/plugin.cfg")
 
 [filesystem]
 

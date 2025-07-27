@@ -372,6 +372,7 @@ position = Vector2(1355.9999, 561.99994)
 mesh = SubResource("SphereMesh_ruc3j")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="resized" from="." to="." method="_on_window_resized"]
 [connection signal="gui_input" from="TitleBar" to="TitleBar" method="_on_gui_input"]
 [connection signal="button_up" from="TitleBar/ExpandSidebar" to="TitleBar" method="_on_expand_sidebar_button_up"]
 [connection signal="mouse_entered" from="TitleBar/ExpandSidebar" to="TitleBar" method="_on_expand_sidebar_mouse_entered"]

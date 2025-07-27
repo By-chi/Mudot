@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://g5lqngbhhdab"]
+[gd_scene load_steps=14 format=3 uid="uid://dr0xajkx7um6s"]
 
-[ext_resource type="Script" uid="uid://bq3cvocdtkjwt" path="res://scene/main/music_tab_element.gd" id="1_q1i45"]
+[ext_resource type="Script" uid="uid://ch54mwq4ryg5s" path="res://scene/main/music_tab_element.gd" id="1_q1i45"]
 [ext_resource type="Shader" uid="uid://c1uo7f0ub7v3v" path="res://shader/music_tab_element.gdshader" id="2_ee2h4"]
 [ext_resource type="Texture2D" uid="uid://ddty6kr3nwo1" path="res://texture/back.svg" id="4_qeiew"]
 [ext_resource type="Texture2D" uid="uid://bhqag3ugrhh1p" path="res://texture/move.svg" id="5_uyde3"]

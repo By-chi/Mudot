@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3mb53ke24j84"]
+
+[ext_resource type="Script" uid="uid://crc3wvob0uq0n" path="res://scene/elements/条形音频可视化/point.gd" id="1_6n5no"]
+
+[node name="Button" type="Button"]
+z_index = 1
+offset_right = 10.0
+offset_bottom = 10.0
+keep_pressed_outside = true
+script = ExtResource("1_6n5no")
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]

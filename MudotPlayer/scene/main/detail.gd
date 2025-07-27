@@ -1,6 +1,7 @@
 extends Panel
 var template_path:=""
 func show_music_detail(path:String)->void:
+	Global.current_mudot_file_path=path
 	var file=FileAccess.open(path,FileAccess.READ)
 	if file==null:
 		return
@@ -9,7 +10,7 @@ func show_music_detail(path:String)->void:
 	if data==null:
 		return
 	template_path=path.get_base_dir()+"/"+data["template_path"]
-	$Name.text=data["name"]
+	$Name.text=data["song_name"]
 	$Singer.text=data["singer"]
 	$Duration.text=data["duration"]
 	$Introduction.text=data["introduction"]

@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://dir5rl468nmms"]
+
+[ext_resource type="Script" uid="uid://bnnt4qkxfquhy" path="res://scene/main/property_set/Vector2/Vector2.gd" id="1_qoa4a"]
+
+[node name="Vector2" type="Label"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qoa4a")
+
+[node name="SpinBoxY" type="SpinBox" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -99.0
+offset_top = -12.0
+offset_right = -11.625
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 0.1
+
+[node name="SpinBoxX" type="SpinBox" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -12.5
+offset_right = -104.625
+offset_bottom = 12.5
+grow_horizontal = 0
+grow_vertical = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 0.1
+
+[connection signal="value_changed" from="SpinBoxY" to="." method="_on_spin_boxY_value_changed"]
+[connection signal="value_changed" from="SpinBoxX" to="." method="_on_spin_boxX_value_changed"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://b04nto0pakj5m"]
+
+[ext_resource type="Script" uid="uid://bjmusd2rg2kon" path="res://scene/elements/音乐播放器/element.gd" id="1_bgqm7"]
+
+[node name="Element" type="Control"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bgqm7")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true
+bus = &"Music"
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

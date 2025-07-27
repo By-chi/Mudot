@@ -39,7 +39,7 @@ func init_data()->void:
 	file.close()
 	if data==null:
 		return
-	$TextureRect/ColorRect/Name.text=data["name"]
+	$TextureRect/ColorRect/Name.text=data["song_name"]
 	$TextureRect/ColorRect/Name/Singer.text=data["singer"]
 	$TextureRect.texture=Global.load_image_from_absolute_path(path.get_base_dir()+"/"+data["list_cover_path"])
 

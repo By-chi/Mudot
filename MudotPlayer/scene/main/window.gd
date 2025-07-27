@@ -9,6 +9,9 @@ var page:Control:
 		page=value
 		$TitleBar/ExpandSidebar.visible=page.name=="Main"
 		$TitleBar/HBoxContainer.visible=page.name=="Main"
+func _on_window_resized()->void:
+	pivot_offset=get_window().size/2
+
 func _ready() -> void:
 	get_window().min_size=Vector2i(574,574)
 	var value=Global.get_configfile("window_memory","window_position",Vector2i.ZERO)
@@ -28,7 +31,8 @@ func _ready() -> void:
 		if data==null:
 			return
 		scale=Vector2.ONE
-		change_page(args[0].get_base_dir()+"/"+data["template_path"],get_window().size/2,get_window().size/2)
+		Global.current_mudot_file_path=args[0]
+		change_page(args[0].get_base_dir()+"/"+data["template_path"],Vector2(),Vector2(),true)
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed&&event.keycode==KEY_ESCAPE&&!$TitleBar/ExpandSidebar.visible:
@@ -92,18 +96,28 @@ func _set_window_size(value:Vector2i)->void:
 		get_window().size=Vector2i(value.y,value.y)
 		return
 	get_window().size=value
-func change_page(path:String,point:Vector2,new_point:Vector2)->void:
+func change_page(path:String,point:Vector2,new_point:Vector2,cancel_transition_animation:=false)->void:
 	$MeshInstance2D.position=point
-	$AnimationPlayer.play("change_page")
-	$AnimationPlayer.connect("animation_finished",_on_animation_player_animation_finished.bind(path,new_point),CONNECT_ONE_SHOT)
-func _on_animation_player_animation_finished(anim_name:  StringName,path:String,new_point:Vector2) -> void:
+	if !cancel_transition_animation:
+		$AnimationPlayer.play("change_page")
+		$AnimationPlayer.connect("animation_finished",_on_animation_player_animation_finished.bind(path,new_point),CONNECT_ONE_SHOT)
+	else:
+		_on_animation_player_animation_finished("change_page",path,new_point,true)
+func _on_animation_player_animation_finished(anim_name:  StringName,path:String,new_point:Vector2,cancel_transition_animation:=false) -> void:
 	if anim_name=="change_page":
-		$MeshInstance2D.position=new_point
-		$AnimationPlayer.play_backwards("change_page")
+		if !cancel_transition_animation:
+			$MeshInstance2D.position=new_point
+			$AnimationPlayer.play_backwards("change_page")
+		
 		var new_page=load(path).instantiate()
 		new_page.position=page.position
 		new_page.set_deferred("size",page.size)
 		new_page.clip_contents=true
 		page.queue_free()
 		page=new_page
+		var data=Global.get_data_from_json(Global.current_mudot_file_path)["suggested_window_size"]
+		var window_size=Vector2i(int(data[0]),int(data[1]))
+		Global.resize_window(window_size)
 		add_child(new_page)
+		if path!="res://scene/main/main_page.tscn":
+			Global.load_script_variables_from_json(new_page,path.get_basename() + "_variables.json",new_page)

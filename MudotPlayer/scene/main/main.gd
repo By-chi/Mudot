@@ -18,7 +18,16 @@ func _ready() -> void:
 	_on_main_resized()
 	get_tree().auto_accept_quit=false
 	dataup_current_music_path_list()
+	get_window().files_dropped.connect(on_files_dropped)
 	
+
+func on_files_dropped(files:PackedStringArray):
+	var arr=PackedStringArray()
+	for i in files:
+		if i.ends_with(".mudot"):
+			arr.append(i)
+	import_file(true,arr,0)
+
 func _on_main_resized() -> void:
 #region 调整光盘位置和大小，最好不要更改，很乱
 	$Panel2/Panel.size=Vector2i.ONE*($Panel2.size.y-20)
@@ -39,6 +48,7 @@ func _on_main_resized() -> void:
 	$Panel2/Panel/Panel/Panel2.add_theme_stylebox_override("panel", new_stylebox_panel)
 	$Panel2/Panel/Panel/Panel2.size=$Panel2/Panel/Panel.size/3
 	$Panel2/Panel/Panel/Panel2.position=$Panel2/Panel/Panel.size/3
+	
 #endregion
 func add_file():
 	DisplayServer.file_dialog_show(
