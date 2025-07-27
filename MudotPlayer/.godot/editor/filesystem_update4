@@ -1,0 +1,13 @@
+res://default_bus_layout.tres
+res://addons/Dragonfruit/system/saved_settings/saved_dragonfruit_settings.tres
+res://scene/main/main_page.tscn
+res://shader/GaussianBlur.gdshader
+res://style/main.tres
+res://addons/Dragonfruit/system/tool_theme/dragonfruit_theme.tres
+res://shader/music_tab_element.gdshader
+res://scene/main/detail.gd
+res://scene/main/music_tab_element.gd
+res://scene/main/window.gd
+res://scene/main/main.tscn
+res://scene/main/main.gd
+res://scene/Global.gd
