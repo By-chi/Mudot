@@ -1,0 +1,121 @@
+<!--由AI编写-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支持本项目 | 微信赞赏</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wechat: '#25D366', // 微信绿色
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .subtle-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            }
+            .transition-smooth {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800 antialiased">
+    <!-- 页面容器 -->
+    <div class="container mx-auto px-4 py-12 max-w-2xl">
+        <!-- 头部区域 -->
+        <header class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-wechat/10 text-wechat mb-5">
+                <i class="fa fa-heart-o"></i>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-semibold mb-3">感谢您的支持</h1>
+            <p class="text-gray-600 max-w-md mx-auto">您的赞赏将帮助我....uh....增添一次被帮助的体验</p>
+        </header>
+        
+        <!-- 主内容区 -->
+        <main class="bg-white rounded-xl p-6 md:p-8 subtle-shadow mb-10">
+            <!-- 二维码区域 -->
+            <div class="text-center">
+                <h2 class="text-lg font-medium text-gray-700 mb-6">微信赞赏码</h2>
+                
+                <!-- 二维码容器 -->
+                <div class="w-64 h-64 md:w-72 md:h-72 mx-auto mb-6 bg-white border border-gray-100 rounded-lg p-3 transition-smooth hover:shadow-md">
+                    <img src="https://picsum.photos/400/400" alt="微信赞赏码" class="w-full h-full object-contain">
+                </div>
+                
+                <p class="text-gray-500 text-sm mb-8">
+                    扫描上方二维码进行赞赏<br>
+                    金额(1,2,3,5,10,20)rmb感谢您的支持
+                </p>
+                
+                <!-- 仅保留赞赏说明按钮 -->
+                <button class="px-6 py-2.5 bg-wechat text-white rounded-full text-sm flex items-center justify-center mx-auto transition-smooth hover:bg-wechat/90">
+                    <i class="fa fa-question-circle mr-1.5"></i> 赞赏说明
+                </button>
+            </div>
+        </main>
+        
+        <!-- 详细的赞赏说明 -->
+        <div class="bg-white rounded-xl p-6 subtle-shadow mb-10">
+            <h3 class="font-medium mb-4 flex items-center text-gray-700">
+                <i class="fa fa-info-circle text-wechat mr-2"></i> 赞赏说明
+            </h3>
+            <ul class="text-gray-600 text-sm space-y-3">
+                <li class="flex items-start">
+                    <i class="fa fa-check-circle text-wechat text-xs mt-1.5 mr-2"></i>
+                    <span>赞赏金额由您自愿选择,如果要投,建议1元的</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check-circle text-wechat text-xs mt-1.5 mr-2"></i>
+                    <span>赞赏后我真的感谢</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check-circle text-wechat text-xs mt-1.5 mr-2"></i>
+                    <span>要有微信(WeChat)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check-circle text-wechat text-xs mt-1.5 mr-2"></i>
+                    <span>赞赏资金可能不用于项目维护(因为项目不需要资金维护)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check-circle text-wechat text-xs mt-1.5 mr-2"></i>
+                    <span>e.....编不下去了</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 底部区域 -->
+        <footer class="mt-12 text-center text-gray-400 text-xs">
+            <p>© 2025 本项目 版权所有</p>
+        </footer>
+    </div>
+    
+    <!-- 交互脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 按钮点击效果
+            const infoButton = document.querySelector('button');
+            infoButton.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 150);
+                
+                // 点击后滚动到赞赏说明区域
+                const infoSection = document.querySelector('h3').closest('div');
+                infoSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
