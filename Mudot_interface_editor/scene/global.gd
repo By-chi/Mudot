@@ -192,8 +192,6 @@ func get_children_deep(node: Node,call_func:Callable,include_internal:=true) -> 
 func _set_owner(node:Node,owner_node:Node)->void:
 	node.scene_file_path=""
 	node.owner=owner_node
-func _ready() -> void:
-	get_window().connect("close_requested",quit)
 var is_quiting:=false
 func quit()->void:
 	if is_quiting:
@@ -212,9 +210,31 @@ func quit()->void:
 	ResourceSaver.save(pack, scene_path)
 	save_script_variables_to_json(main_node.main_scene, variables_path, main_node.main_scene)  # 增加参考节点参数
 #endregion
-
+#region 自带函数
+func _ready() -> void:
+	get_window().connect("close_requested",quit)
+func _physics_process(delta: float) -> void:
+	if Engine.get_physics_frames()%10==0:
+		if $Outline.visible&&current_show_select_control!=null:
+			select_control_box(current_show_select_control)
+#endregion
 
 #region other functions
+var select_control_box_visibility_region:Rect2
+var current_show_select_control:Control
+func _set_select_control_box_visibility_region(node:Node)->void:
+	if node is Control:
+		select_control_box_visibility_region=select_control_box_visibility_region.merge(node.get_global_rect())
+func select_control_box(node:Control)->void:
+	current_show_select_control=node
+	$Outline.show()
+	select_control_box_visibility_region=node.get_global_rect()
+	get_children_deep(node,_set_select_control_box_visibility_region)
+	select_control_box_visibility_region=select_control_box_visibility_region.intersection(main_node.main_scene.get_global_rect())
+	$Outline.size=select_control_box_visibility_region.size+Vector2(8,8)
+	$Outline.position=select_control_box_visibility_region.position-Vector2(4,4)
+func hide_select_box()->void:
+	$Outline.hide()
 func mouse_is_in_main_scene()->bool:
 	return Rect2(main_node.main_scene.global_position,main_node.main_scene.size).has_point(get_viewport().get_mouse_position())
 func get_type_default_from_string(type_str:String)->Variant:

@@ -1,5 +1,8 @@
 extends HBoxContainer
-var current_index:=0
+var current_index:=0:
+	set(value):
+		current_index=value
+		Global.select_control_box(Global.main_node.current_element)
 func _input(event: InputEvent) -> void:
 	if !Global.mouse_is_in_main_scene():
 		return

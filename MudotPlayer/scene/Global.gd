@@ -163,8 +163,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if target_size!=Vector2i.ZERO:
 		get_window().size=get_window().size*0.7+target_size*0.3
-		get_window().position=start_window_central_position-get_window().size/2
-	if (get_window().size-target_size).length_squared()<=5:
+		var pos:Vector2i=start_window_central_position-get_window().size/2
+		get_window().position=Vector2i(max(pos.x,0),max(pos.y,0))
+	if abs((get_window().size-target_size).length_squared())<=30:
 		get_window().size=target_size
 		target_size=Vector2i.ZERO
 #region 其他功能

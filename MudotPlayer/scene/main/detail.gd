@@ -27,7 +27,7 @@ var obstructive_lenght:=0.0:
 func _on_button_mouse_entered() -> void:
 	Global.show_tooltips("播放")
 	to_show_play_button=true
-	start_positionX=$Panel/Panel/Panel2.position.x
+	start_positionX=$Panel/Panel.size.x/3.0
 	set_process(true)
 func _on_button_mouse_exited() -> void:
 	Global.hide_tooltips()

@@ -290,9 +290,9 @@ func _input(event: InputEvent) -> void:
 	if Global.in_editor&&Global.mouse_is_in_main_scene()&&Global.main_node.tool_bar.current_index==0&&Global.main_node.current_element==self:
 		if event is InputEventMouseButton:
 			if Input.is_action_just_pressed("mouse_middle"):
-				var point=get_local_mouse_position()+Vector2(5,5)
+				var point=get_local_mouse_position()+Vector2(8,8)
 				points.push_back(point)
-				_add_point(point-Vector2(5,5))
+				_add_point(point-Vector2(8,8))
 				update_lines()
 func _add_point(pos:Vector2)->void:
 	var point_node:=preload("res://scene/elements/条形音频可视化/point.tscn").instantiate()

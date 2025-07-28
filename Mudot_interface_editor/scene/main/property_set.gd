@@ -13,6 +13,7 @@ func show_inspectoscope(node:Control)->void:
 		property_set_node.tool_tip_text=node.can_set_property_names[i][1]
 		property_set_node.name=i
 		$VBoxContainer.add_child(property_set_node)
+	Global.main_node.current_element=node
 func hide_inspectoscope()->void:
 	for i in $VBoxContainer.get_children():
 		if i is Control:

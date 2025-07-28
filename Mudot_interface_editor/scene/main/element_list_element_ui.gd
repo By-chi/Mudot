@@ -32,3 +32,16 @@ func _gui_input(event: InputEvent) -> void:
 
 func _on_remove_pressed() -> void:
 	host.quit()
+
+
+func _on_copy_paste_pressed() -> void:
+	var new_node = host.duplicate()
+	new_node.position=host.position
+	if host.script != null:
+		var source_vars = host.get_script().get_script_property_list()
+		for var_info in source_vars:
+			var var_name = var_info.name
+			if var_name.begins_with("_") or var_name == "script":
+				continue
+			new_node.set(var_name, host.get(var_name))
+	host.get_parent().add_child(new_node)

@@ -14,7 +14,8 @@ config/name="Mudot Interface Editor"
 run/main_scene="uid://q50i3baf4m16"
 run/print_header=false
 config/features=PackedStringArray("4.5", "Forward Plus")
-run/max_fps=120
+run/low_processor_mode=true
+run/low_processor_mode_sleep_usec=10000
 run/delta_smoothing=false
 boot_splash/bg_color=Color(0.19215687, 0.20392157, 0.23529412, 1)
 boot_splash/fullsize=false
@@ -31,7 +32,6 @@ Global="*res://scene/Global.tscn"
 window/size/viewport_width=1900
 window/size/viewport_height=900
 window/subwindows/embed_subwindows=false
-mouse_cursor/custom_image="uid://i3eafqmetfxq"
 
 [editor_plugins]
 

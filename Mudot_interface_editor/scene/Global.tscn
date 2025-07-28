@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1u1qbkoepw7n"]
+[gd_scene load_steps=7 format=3 uid="uid://b1u1qbkoepw7n"]
 
 [ext_resource type="Script" uid="uid://sd4wc4ih06rb" path="res://scene/global.gd" id="1_xibyh"]
 
@@ -55,6 +55,15 @@ _data = {
 &"show": SubResource("Animation_xibyh")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6a0yn"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.94117653, 0.65882355, 0.52156866, 1)
+anti_aliasing = false
+
 [node name="Global" type="CanvasLayer"]
 script = ExtResource("1_xibyh")
 
@@ -83,3 +92,10 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="ToolTips"]
 one_shot = true
+
+[node name="Outline" type="Panel" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6a0yn")

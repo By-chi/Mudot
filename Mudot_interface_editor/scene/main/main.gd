@@ -14,6 +14,7 @@ var current_element:Control:
 	set(value):
 		if value!=null:
 			current_element=value
+			Global.select_control_box(current_element)
 		else:
 			inspectoscope.hide_inspectoscope()
 func _ready() -> void:

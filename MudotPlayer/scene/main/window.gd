@@ -9,6 +9,8 @@ var page:Control:
 		page=value
 		$TitleBar/ExpandSidebar.visible=page.name=="Main"
 		$TitleBar/HBoxContainer.visible=page.name=="Main"
+		$TitleBar/Title.visible=page.name!="Main"
+		$PlayerUI.visible=page.name!="Main"
 func _on_window_resized()->void:
 	pivot_offset=get_window().size/2
 
@@ -108,16 +110,21 @@ func _on_animation_player_animation_finished(anim_name:  StringName,path:String,
 		if !cancel_transition_animation:
 			$MeshInstance2D.position=new_point
 			$AnimationPlayer.play_backwards("change_page")
-		
+		var data=Global.get_data_from_json(Global.current_mudot_file_path)
+		$TitleBar/Title.text=data["song_name"]+"    ----"+data["singer"]
 		var new_page=load(path).instantiate()
 		new_page.position=page.position
 		new_page.set_deferred("size",page.size)
 		new_page.clip_contents=true
 		page.queue_free()
 		page=new_page
-		var data=Global.get_data_from_json(Global.current_mudot_file_path)["suggested_window_size"]
-		var window_size=Vector2i(int(data[0]),int(data[1]))
+		var window_size=Vector2i(int(data["suggested_window_size"][0]),int(data["suggested_window_size"][1]))
 		Global.resize_window(window_size)
 		add_child(new_page)
+		
 		if path!="res://scene/main/main_page.tscn":
 			Global.load_script_variables_from_json(new_page,path.get_basename() + "_variables.json",new_page)
+
+
+func _on_player_ui_visibility_changed() -> void:
+	set_process(visible)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://vd141vt5c7jo"]
+[gd_scene load_steps=22 format=3 uid="uid://vd141vt5c7jo"]
 
 [ext_resource type="Theme" uid="uid://bnv7dj640tkym" path="res://style/main.tres" id="1_itxqv"]
 [ext_resource type="Script" uid="uid://c2l42vitgbe23" path="res://scene/main/title_bar.gd" id="2_qtsyf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://mui00e4hh85p" path="res://texture/close.svg" id="3_brvut"]
 [ext_resource type="Texture2D" uid="uid://cfgebxjeaas46" path="res://texture/minimize.svg" id="4_0ha60"]
 [ext_resource type="PackedScene" uid="uid://0dkamis2kw1o" path="res://scene/main/main_page.tscn" id="7_b8g54"]
+[ext_resource type="Script" uid="uid://bk2003ubpd06y" path="res://scene/main/player_ui.gd" id="8_onf7c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruc3j"]
 bg_color = Color(0.07058824, 0.07058824, 0.07058824, 1)
@@ -244,6 +245,16 @@ _data = {
 radius = 3.0
 height = 6.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si3g0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.080174826, 0.09114005, 0.11307079, 0.91764706)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_detail = 5
+
 [node name="Panel" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
 clip_contents = true
@@ -356,6 +367,19 @@ flat = true
 wait_time = 0.5
 one_shot = true
 
+[node name="Title" type="Label" parent="TitleBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -18.5
+offset_right = 597.0
+offset_bottom = 18.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 36
+text_overrun_behavior = 2
+
 [node name="Main" parent="." instance=ExtResource("7_b8g54")]
 layout_mode = 1
 
@@ -370,6 +394,29 @@ visible = false
 z_index = 999
 position = Vector2(1355.9999, 561.99994)
 mesh = SubResource("SphereMesh_ruc3j")
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+script = ExtResource("8_onf7c")
+
+[node name="Bar" type="Panel" parent="PlayerUI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_si3g0")
+
+[node name="Control" type="Control" parent="PlayerUI"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="resized" from="." to="." method="_on_window_resized"]
@@ -387,3 +434,8 @@ mesh = SubResource("SphereMesh_ruc3j")
 [connection signal="pressed" from="TitleBar/HBoxContainer/Favorite" to="TitleBar" method="_on_favorite_pressed"]
 [connection signal="text_submitted" from="TitleBar/HBoxContainer/LineEdit" to="TitleBar" method="_on_line_edit_text_submitted"]
 [connection signal="timeout" from="TitleBar/Timer" to="TitleBar" method="_on_timer_timeout"]
+[connection signal="visibility_changed" from="PlayerUI" to="." method="_on_player_ui_visibility_changed"]
+[connection signal="mouse_entered" from="PlayerUI/Bar" to="PlayerUI" method="_on_bar_mouse_entered"]
+[connection signal="mouse_exited" from="PlayerUI/Bar" to="PlayerUI" method="_on_bar_mouse_exited"]
+[connection signal="mouse_entered" from="PlayerUI/Control" to="PlayerUI" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="PlayerUI/Control" to="PlayerUI" method="_on_control_mouse_exited"]

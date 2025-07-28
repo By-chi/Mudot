@@ -1,7 +1,8 @@
+Panel
+LineEdit
 Path2D
 VBoxContainer
 Button
-LineEdit
 Label
 PropertySetUI
 Line2D
