@@ -34,19 +34,20 @@ var music_path:String:
 			sound.data = music_file.get_buffer(music_file.get_length())
 			$AudioStreamPlayer.stream=sound
 			music_file.close()
-		var data=Global.get_data_from_json(Global.current_mudot_file_path)
-		data["duration"]=format_seconds($AudioStreamPlayer.stream.get_length())
-		var file = FileAccess.open(Global.current_mudot_file_path, FileAccess.WRITE)
-		if file:
-			file.store_string(JSON.stringify(data, "\t"))
-			file.close()
-		$AudioStreamPlayer.play()
+		if $AudioStreamPlayer.stream!=null:
+			var data=Global.get_data_from_json(Global.current_mudot_file_path)
+			data["duration"]=format_seconds($AudioStreamPlayer.stream.get_length())
+			var file = FileAccess.open(Global.current_mudot_file_path, FileAccess.WRITE)
+			if file:
+				file.store_string(JSON.stringify(data, "\t"))
+				file.close()
+			$AudioStreamPlayer.play()
 func format_seconds(seconds: int) -> String:
 	# 确保输入为非负整数
 	seconds = max(0, seconds)
 	
 	# 计算分钟和剩余秒数
-	var minutes:int = seconds / 60
+	var minutes: = seconds / 60.0
 	var remaining_seconds = seconds % 60
 	
 	# 根据是否有分钟数返回不同格式

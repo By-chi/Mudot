@@ -29,11 +29,32 @@ var music_path:String:
 			$AudioStreamPlayer.stream=AudioStreamOggVorbis.load_from_file(
 				path)
 		elif music_path.ends_with("mp3"):
-			var file = FileAccess.open(path, FileAccess.READ)
+			var music_file = FileAccess.open(path, FileAccess.READ)
 			var sound = AudioStreamMP3.new()
-			sound.data = file.get_buffer(file.get_length())
+			sound.data = music_file.get_buffer(music_file.get_length())
 			$AudioStreamPlayer.stream=sound
-		$AudioStreamPlayer.play()
+			music_file.close()
+		if $AudioStreamPlayer.stream!=null:
+			var data=Global.get_data_from_json(Global.current_mudot_file_path)
+			data["duration"]=format_seconds($AudioStreamPlayer.stream.get_length())
+			var file = FileAccess.open(Global.current_mudot_file_path, FileAccess.WRITE)
+			if file:
+				file.store_string(JSON.stringify(data, "\t"))
+				file.close()
+			$AudioStreamPlayer.play()
+func format_seconds(seconds: int) -> String:
+	# 确保输入为非负整数
+	seconds = max(0, seconds)
+	
+	# 计算分钟和剩余秒数
+	var minutes: = seconds / 60.0
+	var remaining_seconds = seconds % 60
+	
+	# 根据是否有分钟数返回不同格式
+	if minutes > 0:
+		return "%d min %d s" % [minutes, remaining_seconds]
+	else:
+		return "%d s" % remaining_seconds
 var volume_db:float:
 	set(value):
 		volume_db=value

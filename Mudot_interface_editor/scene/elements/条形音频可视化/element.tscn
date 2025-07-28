@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddsme2yp1t8s7"]
+[gd_scene load_steps=7 format=3 uid="uid://ddsme2yp1t8s7"]
 
 [ext_resource type="Script" uid="uid://cmi0643a0tjk1" path="res://scene/elements/条形音频可视化/element.gd" id="1_bxown"]
 [ext_resource type="Script" uid="uid://w2c7iva2oa4w" path="res://scene/elements/条形音频可视化/main_pattern_0.gd" id="2_wded8"]
 [ext_resource type="Script" uid="uid://cyk8iynhq4qsr" path="res://scene/elements/条形音频可视化/main_pattern_1.gd" id="3_86ggn"]
 [ext_resource type="Script" uid="uid://bltjf0jh2ppl1" path="res://scene/elements/条形音频可视化/main_pattern_2.gd" id="4_v0v7a"]
+
+[sub_resource type="Curve2D" id="Curve2D_uxmv1"]
 
 [sub_resource type="Curve2D" id="Curve2D_v0v7a"]
 
@@ -20,6 +22,16 @@ width = 2.0
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Line2D2" type="Line2D" parent="."]
+width = 2.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Path2D" type="Path2D" parent="."]
+visible = false
+curve = SubResource("Curve2D_uxmv1")
 
 [node name="main_pattern_0" type="Node2D" parent="."]
 script = ExtResource("2_wded8")

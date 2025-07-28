@@ -2,6 +2,7 @@ extends Node2D
 var points: PackedVector2Array = []
 var angle:Array[float]=[]
 var heights:Array[float]=[]
+var closed:bool
 func regenerate() -> void:
 	var parent_points = $"..".points
 	if parent_points.size() <2:

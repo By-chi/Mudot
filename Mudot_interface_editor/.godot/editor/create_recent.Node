@@ -1,3 +1,4 @@
+Path2D
 VBoxContainer
 Button
 LineEdit
@@ -5,7 +6,6 @@ Label
 PropertySetUI
 Line2D
 PathFollow2D
-Path2D
 MeshInstance2D
 MultiMeshInstance2D
 CheckButton
