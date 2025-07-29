@@ -1,11 +1,13 @@
 extends Element
 class_name AudioVisualizationLinear
-var points:Array
+var points:PackedVector2Array
+var curve_closed:=false
 func _init() -> void:
 	class_name_str="AudioVisualizationLinear"
 	can_set_property_names={
 		"position":["Vector2","位置"],
 		"track_mode":["int","形状轨迹的模式\n0:使用多个点来组成线段\n1:用bsaier曲线来组成线段"],
+		"track_closed":["bool","如果为 true 并且形状轨迹的折线有超过2个点，则最后一个点和第一个点将通过线段连接"],
 		"frequency_min":["int","最小捕捉频率Hz",0],
 		"frequency_max":["int","最大捕捉频率Hz",10000],
 		"hight_linear":["float","高度线性值",6000.0],
@@ -24,15 +26,18 @@ func _init() -> void:
 	
 func get_point_information_by_id(id: int) -> Dictionary:
 	if points.size() >=1&&line_density>=1:
+		var arr:=points.duplicate()
+		if track_closed:
+			arr.append(arr[0])
 		if track_mode==0:
 			var accumulated := 0.0
 			var target_length := id * line_density
 			var perpendicular_radian := 0.0
-			for i in points.size():
-				if i==points.size()-1:
+			for i in arr.size():
+				if i==arr.size()-1:
 					break
-				var current_point = points[i]
-				var next_point = points[i + 1]
+				var current_point = arr[i]
+				var next_point = arr[i + 1]
 				var segment_length = (next_point - current_point).length()
 				if accumulated + segment_length > target_length:
 					var remaining = target_length - accumulated
@@ -148,7 +153,6 @@ func _physics_process(delta: float) -> void:
 						
 					new_heights.append(height)
 					curve_points.append($main_pattern_2.points[i] + Vector2.UP.rotated($main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
-				
 				# 第二步：调用封装函数生成所有点的in/out向量对
 				var tangent_pairs = generate_smooth_tangents(curve_points, main_pattern_2_smoothness)
 				
@@ -286,9 +290,9 @@ func _input(event: InputEvent) -> void:
 	if Global.in_editor&&Global.mouse_is_in_main_scene()&&Global.main_node.tool_bar.current_index==0&&Global.main_node.current_element==self:
 		if event is InputEventMouseButton:
 			if Input.is_action_just_pressed("mouse_middle"):
-				var point=get_local_mouse_position()+Vector2(5,5)
+				var point=get_local_mouse_position()+Vector2(8,8)
 				points.push_back(point)
-				_add_point(point-Vector2(5,5))
+				_add_point(point-Vector2(8,8))
 				update_lines()
 func _add_point(pos:Vector2)->void:
 	var point_node:=preload("res://scene/elements/条形音频可视化/point.tscn").instantiate()
@@ -298,11 +302,15 @@ func update_lines()->void:
 	if Global.in_editor:
 		$Line2D.show()
 	$Line2D2.hide()
+	var arr:=PackedVector2Array()
+	arr=points.duplicate()
+	if curve_closed:
+		arr.append(points[0])
 	if track_mode==1:
 		$Path2D.curve.clear_points()
-		var in_out_arr:=generate_smooth_tangents(points,0.0)
-		for i in points.size():
-			$Path2D.curve.add_point(points[i],in_out_arr[i][0],in_out_arr[i][1])
+		var in_out_arr:=generate_smooth_tangents(arr,0.0)
+		for i in arr.size():
+			$Path2D.curve.add_point(arr[i],in_out_arr[i][0],in_out_arr[i][1])
 		$Line2D2.points=$Path2D.curve.tessellate()
 		$Line2D.hide()
 		if Global.in_editor:
@@ -335,6 +343,15 @@ var frequency_min:int:
 var hight_linear:float:
 	set(value):
 		hight_linear=value
+
+var track_closed:bool:
+	set(value):
+		track_closed=value
+		if track_mode==0:
+			$Line2D.closed=value
+			$main_pattern_0.closed=value
+		elif track_mode==1:
+			curve_closed=value
 var line_density:float:
 	set(value):
 		line_density=value

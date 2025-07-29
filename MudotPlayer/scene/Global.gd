@@ -89,6 +89,7 @@ func get_configfile(section: String, key: String,default: Variant = null)->Varia
 	return cfg.get_value(section,key,default)
 
 func close_window()->void:
+	get_node("/root/Panel/PlayerUI").hide_bar()
 	set_configfile("window_memory","window_position",get_window().position)
 	set_configfile("window_memory","window_size",get_window().size)
 	get_node("/root/Panel/AnimationPlayer").play_backwards("start")

@@ -1,12 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3mb53ke24j84"]
+[gd_scene load_steps=3 format=3 uid="uid://c3mb53ke24j84"]
 
 [ext_resource type="Script" uid="uid://crc3wvob0uq0n" path="res://scene/elements/条形音频可视化/point.gd" id="1_6n5no"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6n5no"]
+bg_color = Color(0.19691192, 0.19691196, 0.19691184, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
 [node name="Button" type="Button"]
 z_index = 1
-offset_right = 10.0
-offset_bottom = 10.0
+offset_right = 16.0
+offset_bottom = 16.0
 keep_pressed_outside = true
 script = ExtResource("1_6n5no")
 
+[node name="LineEditX" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.0
+offset_top = -25.0
+offset_right = 0.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_6n5no")
+placeholder_text = "x"
+alignment = 1
+
+[node name="LineEditY" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = -25.0
+offset_right = 69.375
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_6n5no")
+placeholder_text = "y"
+alignment = 1
+
 [connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="text_submitted" from="LineEditX" to="." method="_on_line_edit_x_text_submitted"]
+[connection signal="text_submitted" from="LineEditY" to="." method="_on_line_edit_y_text_submitted"]

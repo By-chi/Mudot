@@ -40,7 +40,7 @@ enabled=PackedStringArray("res://addons/Dragonfruit/plugin.cfg", "res://addons/s
 [gui]
 
 theme/custom="uid://bnv7dj640tkym"
-theme/custom_font="uid://48h72b28kkpm"
+theme/custom_font="uid://chtijj1nd3fra"
 
 [input]
 

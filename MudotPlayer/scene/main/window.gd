@@ -3,6 +3,7 @@ var can_resize_window:=false
 var start_mouse_position:Vector2i
 var start_window_position:Vector2i
 var start_window_size:Vector2i
+var page_path:String
 var resize_direction:=Vector2i(0,0)#0:left/top,1:right/bottom
 var page:Control:
 	set(value):
@@ -11,6 +12,13 @@ var page:Control:
 		$TitleBar/HBoxContainer.visible=page.name=="Main"
 		$TitleBar/Title.visible=page.name!="Main"
 		$PlayerUI.visible=page.name!="Main"
+		$PlayerUI.set_process_input(page.name!="Main")
+		if page.name!="Main":
+			for i in page.get_children():
+				if i.class_name_str=="MusicPlayer":
+					$PlayerUI.player=i
+					$PlayerUI.player_node=i.get_node("AudioStreamPlayer")
+					break
 func _on_window_resized()->void:
 	pivot_offset=get_window().size/2
 
@@ -98,8 +106,12 @@ func _set_window_size(value:Vector2i)->void:
 		get_window().size=Vector2i(value.y,value.y)
 		return
 	get_window().size=value
+var new_page
 func change_page(path:String,point:Vector2,new_point:Vector2,cancel_transition_animation:=false)->void:
 	$MeshInstance2D.position=point
+	page_path=path
+	$PlayerUI.hide_bar()
+	ResourceLoader.load_threaded_request(path,"PackedScene",true)
 	if !cancel_transition_animation:
 		$AnimationPlayer.play("change_page")
 		$AnimationPlayer.connect("animation_finished",_on_animation_player_animation_finished.bind(path,new_point),CONNECT_ONE_SHOT)
@@ -111,8 +123,14 @@ func _on_animation_player_animation_finished(anim_name:  StringName,path:String,
 			$MeshInstance2D.position=new_point
 			$AnimationPlayer.play_backwards("change_page")
 		var data=Global.get_data_from_json(Global.current_mudot_file_path)
-		$TitleBar/Title.text=data["song_name"]+"    ----"+data["singer"]
-		var new_page=load(path).instantiate()
+		$TitleBar/Title.text=data["song_name"]+"  ──── "+data["singer"]
+		while true:
+			var status=ResourceLoader.load_threaded_get_status(path,[])
+			if status==ResourceLoader.THREAD_LOAD_LOADED:
+				new_page=ResourceLoader.load_threaded_get(path).instantiate()
+				break
+			await get_tree().create_timer(0.01).timeout
+			
 		new_page.position=page.position
 		new_page.set_deferred("size",page.size)
 		new_page.clip_contents=true
@@ -121,7 +139,6 @@ func _on_animation_player_animation_finished(anim_name:  StringName,path:String,
 		var window_size=Vector2i(int(data["suggested_window_size"][0]),int(data["suggested_window_size"][1]))
 		Global.resize_window(window_size)
 		add_child(new_page)
-		
 		if path!="res://scene/main/main_page.tscn":
 			Global.load_script_variables_from_json(new_page,path.get_basename() + "_variables.json",new_page)
 

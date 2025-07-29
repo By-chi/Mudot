@@ -25,7 +25,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scene/Global.tscn"
-SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 
 [display]
 
@@ -54,13 +53,18 @@ import/blender/enabled=false
 
 fonts/dynamic_fonts/use_oversampling=false
 theme/default_font_antialiasing=0
-theme/custom_font="uid://48h72b28kkpm"
+theme/custom_font="uid://cf1xqp6cpqy8q"
 
 [input]
 
 mouse_left={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(181, 29),"global_position":Vector2(197, 113),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+mouse_right={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(248, 22),"global_position":Vector2(264, 106),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 

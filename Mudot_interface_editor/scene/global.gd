@@ -214,7 +214,7 @@ func quit()->void:
 func _ready() -> void:
 	get_window().connect("close_requested",quit)
 func _physics_process(delta: float) -> void:
-	if Engine.get_physics_frames()%10==0:
+	if Engine.get_physics_frames()%3==0:
 		if $Outline.visible&&current_show_select_control!=null:
 			select_control_box(current_show_select_control)
 #endregion

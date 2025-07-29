@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://vd141vt5c7jo"]
+[gd_scene load_steps=36 format=3 uid="uid://vd141vt5c7jo"]
 
 [ext_resource type="Theme" uid="uid://bnv7dj640tkym" path="res://style/main.tres" id="1_itxqv"]
 [ext_resource type="Script" uid="uid://c2l42vitgbe23" path="res://scene/main/title_bar.gd" id="2_qtsyf"]
@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://cfgebxjeaas46" path="res://texture/minimize.svg" id="4_0ha60"]
 [ext_resource type="PackedScene" uid="uid://0dkamis2kw1o" path="res://scene/main/main_page.tscn" id="7_b8g54"]
 [ext_resource type="Script" uid="uid://bk2003ubpd06y" path="res://scene/main/player_ui.gd" id="8_onf7c"]
+[ext_resource type="Texture2D" uid="uid://dsswh6dda28ar" path="res://texture/loudspeaker.svg" id="9_si3g0"]
+[ext_resource type="Texture2D" uid="uid://clknevfqqghxf" path="res://texture/last.svg" id="10_36wa8"]
+[ext_resource type="Texture2D" uid="uid://dbl3t0rhjrq02" path="res://texture/play.svg" id="11_n5o2v"]
+[ext_resource type="Texture2D" uid="uid://0lledls05d3" path="res://texture/next.svg" id="12_ruc3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruc3j"]
 bg_color = Color(0.07058824, 0.07058824, 0.07058824, 1)
@@ -250,10 +254,144 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.080174826, 0.09114005, 0.11307079, 0.91764706)
+bg_color = Color(0.46157044, 0.6303897, 0.6433339, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.38856283, 0.5143616, 0.6440196, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_detail = 5
+
+[sub_resource type="SVGTexture" id="SVGTexture_onf7c"]
+_source = "<svg width=\"8\" height=\"8\" viewBox=\"0 0 8 8\" xmlns=\"http://www.w3.org/2000/svg\">
+  <circle cx=\"4\" cy=\"4\" r=\"3.5\" fill=\"#1274d7\" />
+</svg>"
+base_scale = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onf7c"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_si3g0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pidc3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="Animation" id="Animation_ruc3j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HSlider:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HSlider:size:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8.0]
+}
+
+[sub_resource type="Animation" id="Animation_snrr3"]
+resource_name = "show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HSlider:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HSlider:size:x")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.17, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [8.0, 110.0, 100.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ortbh"]
+_data = {
+&"RESET": SubResource("Animation_ruc3j"),
+&"show": SubResource("Animation_snrr3")
+}
+
+[sub_resource type="Animation" id="Animation_pidc3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bar/HSlider:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_si3g0"]
+resource_name = "grabber"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bar/HSlider:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1.03, 1.03)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_snrr3"]
+_data = {
+&"RESET": SubResource("Animation_pidc3"),
+&"grabber": SubResource("Animation_si3g0")
+}
 
 [node name="Panel" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
@@ -269,6 +407,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ruc3j")
 script = ExtResource("2_si3g0")
 
 [node name="TitleBar" type="Panel" parent="."]
+process_mode = 3
 z_index = 999
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 1
@@ -378,24 +517,26 @@ offset_right = 597.0
 offset_bottom = 18.5
 grow_vertical = 2
 theme_override_font_sizes/font_size = 36
-text_overrun_behavior = 2
 
 [node name="Main" parent="." instance=ExtResource("7_b8g54")]
 layout_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_n5o2v")
 }
 autoplay = "start"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+process_mode = 3
 visible = false
 z_index = 999
 position = Vector2(1355.9999, 561.99994)
 mesh = SubResource("SphereMesh_ruc3j")
 
 [node name="PlayerUI" type="CanvasLayer" parent="."]
+process_mode = 3
 script = ExtResource("8_onf7c")
 
 [node name="Bar" type="Panel" parent="PlayerUI"]
@@ -403,20 +544,151 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = -6.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("1_itxqv")
 theme_override_styles/panel = SubResource("StyleBoxFlat_si3g0")
 
-[node name="Control" type="Control" parent="PlayerUI"]
-layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
+[node name="HSlider" type="HSlider" parent="PlayerUI/Bar"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.30000123
+anchor_right = 0.7
+anchor_bottom = 0.6999988
 grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 1
+grow_vertical = 2
+theme_override_constants/center_grabber = 1
+theme_override_icons/grabber = SubResource("SVGTexture_onf7c")
+theme_override_styles/slider = SubResource("StyleBoxFlat_onf7c")
+step = 0.0
+value = 48.570000000006985
+scrollable = false
+
+[node name="Volume" type="Button" parent="PlayerUI/Bar/HSlider"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.000061
+offset_top = -10.0
+offset_right = 32.00006
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxEmpty_si3g0")
+icon = ExtResource("9_si3g0")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="HSlider" type="HSlider" parent="PlayerUI/Bar/HSlider/Volume"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 15.0
+offset_top = -8.0
+offset_right = 23.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(0, 2)
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_pidc3")
+value = 100.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerUI/Bar/HSlider/Volume"]
+libraries = {
+&"": SubResource("AnimationLibrary_ortbh")
+}
+
+[node name="Time" type="HBoxContainer" parent="PlayerUI/Bar/HSlider"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -156.0
+offset_top = -16.5
+offset_right = -18.0
+offset_bottom = 16.5
+grow_vertical = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="PlayerUI/Bar/HSlider/Time"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8256576, 0.9117584, 0.91562045, 1)
+theme_override_font_sizes/font_size = 24
+text = "1:14"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PlayerUI/Bar/HSlider/Time"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "/"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="PlayerUI/Bar/HSlider/Time"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8256576, 0.9117584, 0.91562045, 1)
+theme_override_font_sizes/font_size = 24
+text = "5:14"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Bar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 36.0
+offset_top = -20.0
+offset_right = 76.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Button1" type="Button" parent="PlayerUI/Bar/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+icon = ExtResource("10_36wa8")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button2" type="Button" parent="PlayerUI/Bar/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("11_n5o2v")
+flat = true
+alignment = 2
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button3" type="Button" parent="PlayerUI/Bar/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+icon = ExtResource("12_ruc3j")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerUI"]
+libraries = {
+&"": SubResource("AnimationLibrary_snrr3")
+}
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="resized" from="." to="." method="_on_window_resized"]
@@ -435,7 +707,12 @@ mouse_filter = 1
 [connection signal="text_submitted" from="TitleBar/HBoxContainer/LineEdit" to="TitleBar" method="_on_line_edit_text_submitted"]
 [connection signal="timeout" from="TitleBar/Timer" to="TitleBar" method="_on_timer_timeout"]
 [connection signal="visibility_changed" from="PlayerUI" to="." method="_on_player_ui_visibility_changed"]
-[connection signal="mouse_entered" from="PlayerUI/Bar" to="PlayerUI" method="_on_bar_mouse_entered"]
-[connection signal="mouse_exited" from="PlayerUI/Bar" to="PlayerUI" method="_on_bar_mouse_exited"]
-[connection signal="mouse_entered" from="PlayerUI/Control" to="PlayerUI" method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="PlayerUI/Control" to="PlayerUI" method="_on_control_mouse_exited"]
+[connection signal="drag_ended" from="PlayerUI/Bar/HSlider" to="PlayerUI" method="_on_h_slider_drag_ended"]
+[connection signal="drag_started" from="PlayerUI/Bar/HSlider" to="PlayerUI" method="_on_h_slider_drag_started"]
+[connection signal="resized" from="PlayerUI/Bar/HSlider" to="PlayerUI" method="_on_h_slider_resized"]
+[connection signal="value_changed" from="PlayerUI/Bar/HSlider" to="PlayerUI" method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="PlayerUI/Bar/HSlider/Volume" to="PlayerUI" method="_on_volume_pressed"]
+[connection signal="value_changed" from="PlayerUI/Bar/HSlider/Volume/HSlider" to="PlayerUI" method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="PlayerUI/Bar/HBoxContainer/Button1" to="PlayerUI" method="_on_button_last_pressed"]
+[connection signal="pressed" from="PlayerUI/Bar/HBoxContainer/Button2" to="PlayerUI" method="_on_button_pause_pressed"]
+[connection signal="pressed" from="PlayerUI/Bar/HBoxContainer/Button3" to="PlayerUI" method="_on_button_next_pressed"]

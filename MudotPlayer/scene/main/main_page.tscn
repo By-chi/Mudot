@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bius42dsr0wu2" path="res://texture/add.svg" id="3_hn2v2"]
 [ext_resource type="Script" uid="uid://cq7qi3hw87ck5" path="res://scene/main/detail.gd" id="4_0wpwk"]
 [ext_resource type="Texture2D" uid="uid://dbl3t0rhjrq02" path="res://texture/play.svg" id="5_mex3i"]
-[ext_resource type="FontFile" uid="uid://48h72b28kkpm" path="res://font/ZiTiQuanWeiJunHei-W1-2.ttf" id="6_s1qxm"]
+[ext_resource type="FontFile" uid="uid://cf1xqp6cpqy8q" path="res://font/JetBrainsMonoNL-Regular.ttf" id="6_s1qxm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snrr3"]
 bg_color = Color(0.8370611, 0.83706087, 0.8370612, 1)
@@ -389,6 +389,7 @@ offset_left = 17.0
 offset_top = 19.0
 offset_right = 195.0
 offset_bottom = 70.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("6_s1qxm")
 theme_override_font_sizes/font_size = 50
 
@@ -398,6 +399,7 @@ offset_left = 17.0
 offset_top = 81.0
 offset_right = 111.0
 offset_bottom = 112.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("6_s1qxm")
 theme_override_font_sizes/font_size = 30
 
@@ -411,6 +413,7 @@ offset_top = -31.0
 offset_right = 111.0
 offset_bottom = -15.0
 grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("6_s1qxm")
 theme_override_font_sizes/font_size = 20
 
@@ -420,6 +423,7 @@ offset_left = 17.0
 offset_top = 142.0
 offset_right = 111.0
 offset_bottom = 183.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.16078432)
 theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 4

@@ -9,7 +9,11 @@ func _init() -> void:
 		"position":["Vector2","位置"],
 		#"Position":["Vector2","位置"],
 	}
-	
+var current_playback_progress:=0.0:
+	set(value):
+		current_playback_progress=value
+		if $AudioStreamPlayer.stream!=null:
+			$AudioStreamPlayer.seek($AudioStreamPlayer.stream.get_length()*current_playback_progress)
 func _ready() -> void:
 	super._ready()
 	if Global.in_editor:
@@ -43,14 +47,9 @@ var music_path:String:
 				file.close()
 			$AudioStreamPlayer.play()
 func format_seconds(seconds: int) -> String:
-	# 确保输入为非负整数
 	seconds = max(0, seconds)
-	
-	# 计算分钟和剩余秒数
 	var minutes: = seconds / 60.0
 	var remaining_seconds = seconds % 60
-	
-	# 根据是否有分钟数返回不同格式
 	if minutes > 0:
 		return "%d min %d s" % [minutes, remaining_seconds]
 	else:

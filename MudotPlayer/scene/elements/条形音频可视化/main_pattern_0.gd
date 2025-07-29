@@ -1,24 +1,26 @@
 extends Node2D
 var width:=6.0
+var closed:=false
 var points: PackedVector2Array = [] :
 	get():
 		if points==PackedVector2Array():
 			regenerate()
 		return points
 func regenerate() -> void:
-	var parent_points = $"..".points
-	if parent_points.size() == 0:
+	var arr:=PackedVector2Array()
+	arr=$"..".points.duplicate()
+	if arr.size() == 0:
 		return
+	if closed:
+		arr.append(arr[0])
 	var children = get_children()
 	var child_index = 0
-	var total_needed = 0
-	var new_points: PackedVector2Array = []
+	var new_points:=PackedVector2Array()
 	for i in range(0, 10000):
 		var information = $"..".get_point_information_by_id(i)
 		if not information["is_valid"]:
 			break
 		var pos = information["position"]
-		total_needed += 1
 		new_points.append(pos)
 		if child_index < children.size():
 			var line_node = children[child_index]

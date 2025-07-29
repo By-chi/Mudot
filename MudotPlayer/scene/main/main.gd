@@ -1,7 +1,6 @@
 extends Control
 
 @export var music_list_gui:VBoxContainer
-
 func dataup_current_music_path_list(music_path_list:=PackedStringArray())->void:
 	if music_path_list==PackedStringArray():
 		current_music_path_list=Global.get_configfile(

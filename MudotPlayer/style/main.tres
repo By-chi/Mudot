@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bnv7dj640tkym"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bnv7dj640tkym"]
 
-[ext_resource type="FontFile" uid="uid://48h72b28kkpm" path="res://font/ZiTiQuanWeiJunHei-W1-2.ttf" id="1_d83q6"]
+[ext_resource type="Texture2D" uid="uid://clp06c88idmoj" path="res://texture/grabber.svg" id="2_khli7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ckwl1"]
 
@@ -24,6 +24,15 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vqhfm"]
+bg_color = Color(0.7176471, 0.8352941, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 3
+anti_aliasing = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ckwl1"]
 bg_color = Color(0.97604996, 0.97604996, 0.97604984, 1)
 border_width_left = 2
@@ -44,11 +53,15 @@ Button/colors/font_hover_color = Color(0.07058824, 0.45490196, 0.84313726, 1)
 Button/colors/font_hover_pressed_color = Color(0.07058824, 0.45490196, 0.84313726, 1)
 Button/colors/font_pressed_color = Color(0.07058824, 0.45490196, 0.84313726, 1)
 Button/font_sizes/font_size = 22
-Button/fonts/font = ExtResource("1_d83q6")
+Button/fonts/font = null
 Button/styles/focus = SubResource("StyleBoxEmpty_ckwl1")
 Button/styles/hover = SubResource("StyleBoxFlat_khli7")
 Button/styles/normal = SubResource("StyleBoxFlat_d83q6")
 Button/styles/pressed = SubResource("StyleBoxFlat_khli7")
+HSlider/icons/grabber = ExtResource("2_khli7")
+HSlider/icons/grabber_highlight = ExtResource("2_khli7")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_vqhfm")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_vqhfm")
 Label/colors/font_color = Color(0, 0, 0, 1)
-Label/fonts/font = ExtResource("1_d83q6")
+Label/fonts/font = null
 Panel/styles/panel = SubResource("StyleBoxFlat_ckwl1")
