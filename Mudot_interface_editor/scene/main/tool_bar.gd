@@ -4,18 +4,15 @@ var current_index:=0:
 		current_index=value
 		Global.select_control_box(Global.main_node.current_element)
 func _input(event: InputEvent) -> void:
-	if !Global.mouse_is_in_main_scene():
-		return
 	if current_index==0:
-		pass
+		if event is InputEventMouseMotion:
+			if Input.is_action_pressed("mouse_left")&&Input.is_action_pressed("space"):
+				Global.main_node.main_scene.position+=event.relative
 	elif current_index==1:
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("mouse_left"):
-				#if Global.main_node.current_element.can_set_property_names.has("Position"):
 				if Global.main_node.current_element.can_set_property_names.has("position"):
-					#var node=Global.main_node.inspectoscope.get_node("VBoxContainer/"+"Position")
 					var node=Global.main_node.inspectoscope.get_node_or_null("VBoxContainer/"+"position")
-					#if node.get_method_list:
 					if node!=null:
 						node.value+=event.relative
 						node.update()

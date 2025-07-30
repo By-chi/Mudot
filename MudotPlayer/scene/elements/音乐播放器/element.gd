@@ -33,11 +33,13 @@ var music_path:String:
 			$AudioStreamPlayer.stream=AudioStreamOggVorbis.load_from_file(
 				path)
 		elif music_path.ends_with("mp3"):
+			print(path)
 			var music_file = FileAccess.open(path, FileAccess.READ)
-			var sound = AudioStreamMP3.new()
-			sound.data = music_file.get_buffer(music_file.get_length())
-			$AudioStreamPlayer.stream=sound
-			music_file.close()
+			if music_file!=null:
+				var sound = AudioStreamMP3.new()
+				sound.data = music_file.get_buffer(music_file.get_length())
+				$AudioStreamPlayer.stream=sound
+				music_file.close()
 		if $AudioStreamPlayer.stream!=null:
 			var data=Global.get_data_from_json(Global.current_mudot_file_path)
 			data["duration"]=format_seconds($AudioStreamPlayer.stream.get_length())

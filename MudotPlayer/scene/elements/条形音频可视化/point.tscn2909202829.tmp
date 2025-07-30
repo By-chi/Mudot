@@ -15,7 +15,7 @@ anti_aliasing = false
 z_index = 1
 offset_right = 16.0
 offset_bottom = 16.0
-focus_behavior_recursive = 1
+focus_mode = 1
 keep_pressed_outside = true
 script = ExtResource("1_6n5no")
 
@@ -28,13 +28,11 @@ offset_left = -69.0
 offset_top = -25.0
 offset_right = 0.375
 grow_horizontal = 2
-focus_behavior_recursive = 2
+focus_mode = 1
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_6n5no")
 placeholder_text = "x"
 alignment = 1
-context_menu_enabled = false
-emoji_menu_enabled = false
 
 [node name="LineEditY" type="LineEdit" parent="."]
 layout_mode = 1
@@ -44,13 +42,11 @@ anchor_right = 0.5
 offset_top = -25.0
 offset_right = 69.375
 grow_horizontal = 2
-focus_behavior_recursive = 2
+focus_mode = 1
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_6n5no")
 placeholder_text = "y"
 alignment = 1
-context_menu_enabled = false
-emoji_menu_enabled = false
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="text_submitted" from="LineEditX" to="." method="_on_line_edit_x_text_submitted"]

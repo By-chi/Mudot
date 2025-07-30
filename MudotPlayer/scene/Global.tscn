@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://daqr1sy3mdi6c"]
 
-[ext_resource type="Script" uid="uid://d4g3dwivhtiii" path="res://scene/global.gd" id="1_xibyh"]
+[ext_resource type="Script" uid="uid://d4g3dwivhtiii" path="res://scene/Global.gd" id="1_xibyh"]
 [ext_resource type="Shader" uid="uid://def31yuipy68k" path="res://shader/GaussianBlur.gdshader" id="2_6a0yn"]
-[ext_resource type="FontFile" uid="uid://48h72b28kkpm" path="res://font/ZiTiQuanWeiJunHei-W1-2.ttf" id="3_rcgv5"]
+[ext_resource type="FontFile" uid="uid://cf1xqp6cpqy8q" path="res://font/JetBrainsMonoNL-Regular.ttf" id="3_rcgv5"]
 [ext_resource type="Theme" uid="uid://bnv7dj640tkym" path="res://style/main.tres" id="4_1wjb5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rcgv5"]

@@ -92,6 +92,7 @@ func _on_line_edit_text_submitted(new_text:  String) -> void:
 		$HBoxContainer/LineEdit.release_focus()
 	else:
 		Global.show_hint("已有相同收藏夹")
+		Global.pop("警告!","@#$^%&*$#@GH@#$%$#$647435")
 func _ready() -> void:
 	favorite_list=Global.get_configfile("favorite_list","favorite_list",PackedStringArray())
 	updata_favorite_list()
@@ -132,6 +133,8 @@ func _on_expand_sidebar_button_up() -> void:
 		$HBoxContainer/LineEdit.mouse_filter=MOUSE_FILTER_STOP
 		updata_favorite_list()
 		Global.set_configfile("favorite_list","favorite_list",favorite_list)
+		Global.set_configfile("music_list",current_button.name,null)
+		
 		$ExpandSidebar.icon=preload("res://texture/expand.svg")
 		current_button=null
 

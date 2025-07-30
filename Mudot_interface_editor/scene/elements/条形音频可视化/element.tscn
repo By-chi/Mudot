@@ -45,6 +45,12 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
+[node name="Line2D2" type="Line2D" parent="main_pattern_1"]
+width = 6.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
 [node name="main_pattern_2" type="Node2D" parent="."]
 script = ExtResource("4_v0v7a")
 
@@ -53,6 +59,12 @@ visible = false
 curve = SubResource("Curve2D_v0v7a")
 
 [node name="Line2D" type="Line2D" parent="main_pattern_2"]
+width = 6.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Line2D2" type="Line2D" parent="main_pattern_2"]
 width = 6.0
 joint_mode = 2
 begin_cap_mode = 2

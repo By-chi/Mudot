@@ -230,7 +230,7 @@ func select_control_box(node:Control)->void:
 	$Outline.show()
 	select_control_box_visibility_region=node.get_global_rect()
 	get_children_deep(node,_set_select_control_box_visibility_region)
-	select_control_box_visibility_region=select_control_box_visibility_region.intersection(main_node.main_scene.get_global_rect())
+	select_control_box_visibility_region=select_control_box_visibility_region.intersection(main_node.main_scene.get_parent().get_global_rect())
 	$Outline.size=select_control_box_visibility_region.size+Vector2(8,8)
 	$Outline.position=select_control_box_visibility_region.position-Vector2(4,4)
 func hide_select_box()->void:

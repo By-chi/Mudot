@@ -1,3 +1,6 @@
+ScrollContainer
+CanvasLayer
+Camera2D
 Panel
 LineEdit
 Path2D
@@ -10,6 +13,3 @@ PathFollow2D
 MeshInstance2D
 MultiMeshInstance2D
 CheckButton
-Node2D
-Control
-SpinBox

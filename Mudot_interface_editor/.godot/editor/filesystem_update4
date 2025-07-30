@@ -1,2 +1,9 @@
 res://default_bus_layout.tres
 res://addons/Dragonfruit/system/saved_settings/saved_dragonfruit_settings.tres
+res://scene/elements/条形音频可视化/element.gd
+res://scene/elements/条形音频可视化/element.tscn
+res://style/main.tres
+res://addons/Dragonfruit/system/tool_theme/dragonfruit_theme.tres
+res://scene/elements/条形音频可视化/main_pattern_0.gd
+res://scene/main/main.tscn
+res://scene/main/property_set.gd

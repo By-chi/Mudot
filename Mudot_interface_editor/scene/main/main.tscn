@@ -91,7 +91,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nakj2")
 script = ExtResource("1_6vuhr")
 inspectoscope = NodePath("Body/SplitContainer/Right/PropertySet")
-property_list = NodePath("Body/SplitContainer/Right/PropertySet/VBoxContainer")
+property_list = NodePath("Body/SplitContainer/Right/PropertySet/ScrollContainer/VBoxContainer")
 elements = NodePath("Body/SplitContainer/SplitContainer/UP/Panel")
 element_node_list = NodePath("Body/SplitContainer/SplitContainer/Down/Panel")
 tool_bar = NodePath("Head/ToolBar")
@@ -246,13 +246,19 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_onf7c")
 script = ExtResource("4_a0c6e")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/Right/PropertySet"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Body/SplitContainer/Right/PropertySet"]
+custom_minimum_size = Vector2(350, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/Right/PropertySet/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Centre" type="Panel" parent="Body/SplitContainer/Right"]
 clip_contents = true

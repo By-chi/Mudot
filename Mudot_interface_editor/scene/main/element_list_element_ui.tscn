@@ -45,18 +45,18 @@ script = ExtResource("1_r0g3g")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 18.0
-offset_top = -15.5
-offset_right = 58.0
-offset_bottom = 15.5
+anchors_preset = -1
+anchor_left = 0.009473684
+anchor_top = 0.1
+anchor_right = 0.99
+anchor_bottom = 0.9
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
 text = "Name"
-horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="LineEdit" type="LineEdit" parent="."]
 visible = false
