@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt0sxrtwr5yaf"]
+
+[ext_resource type="Script" uid="uid://cog2mk4hch315" path="res://scene/elements/三类型内容容器/element.gd" id="1_agnrx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ymhs"]
+
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_afubn"]
+
+[node name="Element" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
+focus_mode = 1
+script = ExtResource("1_agnrx")
+
+[node name="Tailor" type="Panel" parent="."]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ymhs")
+
+[node name="ColorRect" type="ColorRect" parent="Tailor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="TextureRect" type="TextureRect" parent="Tailor"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Tailor"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+stream = SubResource("VideoStreamTheora_afubn")
+loop = true
+buffering_msec = 1000
+
+[connection signal="finished" from="Tailor/VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]

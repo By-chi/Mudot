@@ -37,8 +37,12 @@ window/size/minimize_disabled=true
 window/size/maximize_disabled=true
 window/subwindows/embed_subwindows=false
 window/per_pixel_transparency/allowed=true
-window/vsync/vsync_mode=3
+window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://ck5gq06bcj1iv"
+
+[editor]
+
+run/vsync/vsync_mode=0
 
 [editor_plugins]
 

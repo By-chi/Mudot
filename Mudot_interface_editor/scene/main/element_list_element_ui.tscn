@@ -108,6 +108,21 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
+[node name="Move" type="Button" parent="Menu/HBoxContainer"]
+custom_minimum_size = Vector2(64.375, 0)
+layout_mode = 2
+text = "顺序"
+
+[node name="SpinBox" type="SpinBox" parent="Menu/HBoxContainer/Move"]
+visible = false
+layout_mode = 0
+offset_right = 64.375
+offset_bottom = 50.0
+rounded = true
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 1.0
+
 [node name="CopyPaste" type="Button" parent="Menu/HBoxContainer"]
 layout_mode = 2
 text = "复制"
@@ -119,5 +134,7 @@ text = "删除"
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="Doubel" to="." method="_on_doubel_timeout"]
+[connection signal="pressed" from="Menu/HBoxContainer/Move" to="." method="_on_move_pressed"]
+[connection signal="value_changed" from="Menu/HBoxContainer/Move/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="pressed" from="Menu/HBoxContainer/CopyPaste" to="." method="_on_copy_paste_pressed"]
 [connection signal="pressed" from="Menu/HBoxContainer/Remove" to="." method="_on_remove_pressed"]

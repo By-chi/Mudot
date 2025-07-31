@@ -1,7 +1,8 @@
+Panel
+SpinBox
 ScrollContainer
 CanvasLayer
 Camera2D
-Panel
 LineEdit
 Path2D
 VBoxContainer
@@ -11,5 +12,3 @@ PropertySetUI
 Line2D
 PathFollow2D
 MeshInstance2D
-MultiMeshInstance2D
-CheckButton

@@ -40,8 +40,24 @@ func _on_copy_paste_pressed() -> void:
 	if host.script != null:
 		var source_vars = host.get_script().get_script_property_list()
 		for var_info in source_vars:
-			var var_name = var_info.name
-			if var_name.begins_with("_") or var_name == "script":
+			var var_name:String= var_info.name
+			if var_name=="re_init":
+				new_node.set("re_init",false)
 				continue
-			new_node.set(var_name, host.get(var_name))
+			if var_name.is_valid_identifier():
+				new_node.set(var_name, host.get(var_name))
 	host.get_parent().add_child(new_node)
+
+
+func _on_move_pressed() -> void:
+	if $Menu/HBoxContainer/Move.self_modulate.a==0:
+		$Menu/HBoxContainer/Move.self_modulate.a=1
+		$Menu/HBoxContainer/Move/SpinBox.visible=false
+	else:
+		$Menu/HBoxContainer/Move.self_modulate.a=0
+		$Menu/HBoxContainer/Move/SpinBox.visible=true
+	$Menu/HBoxContainer/Move/SpinBox.value=get_index()
+	
+func _on_spin_box_value_changed(value:  float) -> void:
+	get_parent().move_child(self,int(value))
+	host.get_parent().move_child(host,int(value))

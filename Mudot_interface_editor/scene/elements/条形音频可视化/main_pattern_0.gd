@@ -1,5 +1,9 @@
 extends Node2D
-var width:=6.0
+var width:=3.0:
+	set(value):
+		width=value
+		for i in get_children():
+			i.mesh.radius=width
 var closed:=false
 var points: PackedVector2Array = [] :
 	get():
@@ -36,8 +40,7 @@ func regenerate() -> void:
 func _add_vertical_lines(pos:Vector2,line_rotation:float)->void:
 	var node:=MeshInstance2D.new()
 	node.mesh=CapsuleMesh.new()
-	node.mesh.rings=4
-	node.mesh.radius=width/2.0
+	node.mesh.radius=width
 	node.mesh.height=30
 	node.mesh.radial_segments=4
 	node.position=pos

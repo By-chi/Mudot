@@ -1,5 +1,17 @@
 extends Element
+
 class_name AudioVisualizationLinear
+@onready var path2d = $Path2D
+var curve
+@onready var line2d = $Line2D
+@onready var line2d2 = $Line2D2
+@onready var points_node = $Points
+@onready var main_pattern_0 = $main_pattern_0
+@onready var main_pattern_1 = $main_pattern_1
+@onready var main_pattern_1_line2d = $main_pattern_1/Line2D
+@onready var main_pattern_2 = $main_pattern_2
+@onready var main_pattern_2_line2d = $main_pattern_2/Line2D
+@onready var main_pattern_2_path2d = $main_pattern_2/Path2D
 var points:PackedVector2Array:
 	set(value):
 		points=value
@@ -112,11 +124,11 @@ func get_point_information_by_id(id: int) -> Dictionary:
 				target_length -= _cached_curve_length
 			
 			# 曲线采样
-			var transform: Transform2D = $Path2D.curve.sample_baked_with_rotation(target_length)
+			var transform: Transform2D = path2d.curve.sample_baked_with_rotation(target_length)
 			var direction_radian: float
 			
 			if id == 0:
-				direction_radian = $Path2D.curve.sample_baked_with_rotation(
+				direction_radian = path2d.curve.sample_baked_with_rotation(
 					target_length + line_density
 				).get_rotation()
 			else:
@@ -141,7 +153,7 @@ func update_cache() -> void:
 	if track_mode != 2:
 		_cached_arr = points.duplicate()
 	else:
-		_cached_arr = $Line2D2.points.duplicate()
+		_cached_arr = line2d2.points.duplicate()
 	
 	# 处理闭合路径
 	if track_closed and _cached_arr.size() > 0:
@@ -156,7 +168,7 @@ func update_cache() -> void:
 				_cached_total_length += (_cached_arr[i+1] - _cached_arr[i]).length()
 		1:
 			# 缓存曲线长度
-			_cached_curve_length = $Path2D.curve.get_baked_length()
+			_cached_curve_length = path2d.curve.get_baked_length()
 	
 	_cache_valid = true
 
@@ -167,11 +179,12 @@ func invalidate_cache() -> void:
 func _ready() -> void:
 	super._ready()
 	if !Global.in_editor:
-		$Line2D.hide()
-		$Points.hide()
-		$Line2D2.hide()
-		$main_pattern_1/Line2D.hide()
-		$main_pattern_2/Line2D.hide()
+		line2d.hide()
+		points_node.hide()
+		line2d2.hide()
+		main_pattern_1_line2d.hide()
+		main_pattern_2_line2d.hide()
+	curve = path2d.curve
 	bus_effect_instance=AudioServer.get_bus_effect_instance(1,0)
 	_update_from_point_nodes()
 #region realize function
@@ -181,59 +194,55 @@ func _physics_process(delta: float) -> void:
 	if inter_sampling_frame_interval==0||Engine.get_process_frames()%inter_sampling_frame_interval==0:
 		var v:Vector2
 		if main_pattern==0:
-			var count:=$main_pattern_0.get_child_count()
+			var count:=main_pattern_0.get_child_count()
 			if count!=0:
-				if $main_pattern_0.points.size()==count:
-					var node:=$main_pattern_0.get_children()
+				if main_pattern_0.points.size()==count:
+					var node:=main_pattern_0.get_children()
 					var sampling_density:=float(frequency_max-frequency_min)/count
 					for i in count:
 						v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
 						var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
 						var height = base_height*(1.0-response_slow_weight) + node[i].mesh.height*response_slow_weight
-						if i != 0 && i != count - 1:
-							var prev_height = (base_height + node[i-1].mesh.height) * 0.5
-							var next_height = (base_height + node[i+1].mesh.height) * 0.5
-							height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
+						var prev_height = (base_height + node[i-1].mesh.height) * 0.5
+						var next_height = (base_height + node[(i+1)%node.size()].mesh.height) * 0.5
+						height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
 						if vertical_summetry:
 							height=-height
 						node[i].mesh.height = min(max(absf(height),6),1000)
 						if !main_pattern_0_align_center:
-							node[i].position = $main_pattern_0.points[i] + Vector2.UP.rotated(node[i].rotation) * (height/2.0+vertical_shift)
+							node[i].position = main_pattern_0.points[i] + Vector2.UP.rotated(node[i].rotation) * (height/2.0+vertical_shift)
 						else:
-							node[i].position = $main_pattern_0.points[i] - Vector2.UP.rotated(node[i].rotation) * (vertical_shift)
+							node[i].position = main_pattern_0.points[i] - Vector2.UP.rotated(node[i].rotation) * (vertical_shift)
 			else:
-				$main_pattern_0.regenerate()
+				main_pattern_0.regenerate()
 		elif main_pattern==1:
-			var line:=$main_pattern_1/Line2D
-			var arr:PackedVector2Array=$main_pattern_1.points.duplicate()
+			var arr:PackedVector2Array=main_pattern_1.points.duplicate()
 			var count:=arr.size()
 			var new_heights:Array[float]
-			if $main_pattern_1.points.size()!=0:
+			if main_pattern_1.points.size()!=0:
 				var sampling_density:=float(frequency_max-frequency_min)/count
 				for i in count:
 					v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
 					var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-					var height = base_height*(1.0-response_slow_weight) +$main_pattern_1.heights[i]*response_slow_weight
-					if i != 0 && i != count - 1:
-						var prev_height = (base_height + $main_pattern_1.heights[i-1]) * 0.5
-						var next_height = (base_height +$main_pattern_1.heights[i+1]) * 0.5
-						height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
+					var height = base_height*(1.0-response_slow_weight) +main_pattern_1.heights[i]*response_slow_weight
+					var prev_height = (base_height + main_pattern_1.heights[i-1]) * 0.5
+					var next_height = (base_height +main_pattern_1.heights[(i+1)%main_pattern_1.heights.size()]) * 0.5
+					height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
 					if vertical_summetry:
 						height=-height
 					new_heights.append(height)
-					arr[i] = $main_pattern_1.points[i] + Vector2.UP.rotated($main_pattern_1.angle[i])*(height+vertical_shift)
-				line.points=arr
-				$main_pattern_1.heights=new_heights
+					arr[i] = main_pattern_1.points[i] + Vector2.UP.rotated(main_pattern_1.angle[i])*(height+vertical_shift)
+				main_pattern_1_line2d.points=arr
+				main_pattern_1.heights=new_heights
 			else:
-				$main_pattern_1.regenerate()
+				main_pattern_1.regenerate()
 		elif main_pattern == 2:
-			var line: Path2D = $main_pattern_2/Path2D
-			var count: int = $main_pattern_2.points.size()
+			var count: int = main_pattern_2.points.size()
 			var new_heights: Array[float]
 			var curve_points:=PackedVector2Array()
 			
 			if count > 0:
-				line.curve.clear_points()
+				main_pattern_2_path2d.curve.clear_points()
 				var sampling_density := float(frequency_max - frequency_min) / count
 				
 				# 第一步：生成曲线点（保持原有逻辑）
@@ -243,44 +252,53 @@ func _physics_process(delta: float) -> void:
 						frequency_min + i * sampling_density + sampling_density
 					)
 					var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-					var height = base_height * (1.0 - response_slow_weight) + $main_pattern_2.heights[i] * response_slow_weight
+					var height = base_height * (1.0 - response_slow_weight) + main_pattern_2.heights[i] * response_slow_weight
 					
-					if i != 0 && i != count - 1:
-						var prev_height = (base_height + $main_pattern_2.heights[i-1]) * 0.5
-						var next_height = (base_height + $main_pattern_2.heights[i+1]) * 0.5
-						if vertical_summetry:
-							prev_height=-prev_height
-							next_height=-next_height
-						height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
+					var prev_height = (base_height + main_pattern_2.heights[i-1]) * 0.5
+					var next_height = (base_height + main_pattern_2.heights[(i+1)%main_pattern_2.heights.size()]) * 0.5
+					if vertical_summetry:
+						prev_height=-prev_height
+						next_height=-next_height
+					height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
 					height = abs(height)
 					if vertical_summetry:
 						height = -height
 					#print(height)
 					new_heights.append(height)
-					curve_points.append($main_pattern_2.points[i] + Vector2.UP.rotated($main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
+					curve_points.append(main_pattern_2.points[i] + Vector2.UP.rotated(main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
 				# 第二步：调用封装函数生成所有点的in/out向量对
 				var tangent_pairs = generate_smooth_tangents(curve_points, main_pattern_2_smoothness)
 				
 				# 第三步：添加点并应用切线（替代原有冗长的条件判断）
 				for i in count:
 					var current = curve_points[i]
-					line.curve.add_point(current)
+					main_pattern_2_path2d.curve.add_point(current)
 					
 					# 直接从函数返回结果中获取计算好的in/out向量
 					var in_vec = tangent_pairs[i][0]
 					var out_vec = tangent_pairs[i][1]
 					
-					line.curve.set_point_in(i, in_vec)
-					line.curve.set_point_out(i, out_vec)
+					main_pattern_2_path2d.curve.set_point_in(i, in_vec)
+					main_pattern_2_path2d.curve.set_point_out(i, out_vec)
 				
-				$main_pattern_2.heights = new_heights
-				$main_pattern_2.update_line()
+				main_pattern_2.heights = new_heights
+				main_pattern_2.update_line()
 			else:
-				$main_pattern_2.regenerate()
+				main_pattern_2.regenerate()
 func generate_smooth_tangents(points_arr:PackedVector2Array,smoothness: float) -> Array[Array]:
 	var count := points_arr.size()
 	var tangent_pairs: Array[Array] = []
+	var dirs:=PackedVector2Array()
+	var norm_dirs:=PackedVector2Array()
 	for i in count:
+		var current = points_arr[i]
+		var next_p = points_arr[(i+1) % count]
+		var dir = next_p - current
+		dirs.append(dir)
+		norm_dirs.append(dir.normalized() if dir.length_squared() > 0 else Vector2.ZERO)
+	for i in count:
+		var prev_dir = norm_dirs[i-1] if i > 0 else Vector2.ZERO
+		var next_dir = norm_dirs[i] if i < count-1 else Vector2.ZERO
 		var current = points_arr[i]
 		var prev_dist: float = 0.0
 		if i > 0:
@@ -330,8 +348,8 @@ func generate_smooth_tangents(points_arr:PackedVector2Array,smoothness: float) -
 		else:
 			var p_prev = points_arr[i-1]
 			var p_next = points_arr[i+1]
-			var prev_dir = (current - p_prev).normalized()
-			var next_dir = (p_next - current).normalized()
+			#var prev_dir = (current - p_prev).normalized()
+			#var next_dir = (p_next - current).normalized()
 			var prev_prev_dir: Vector2
 			if i > 1:
 				prev_prev_dir = (p_prev - points_arr[i-2]).normalized()
@@ -372,34 +390,34 @@ func _input(event: InputEvent) -> void:
 func _add_point(pos:Vector2)->void:
 	var point_node:=preload("res://scene/elements/条形音频可视化/point.tscn").instantiate()
 	point_node.position=pos
-	$Points.add_child(point_node)
+	points_node.add_child(point_node)
 func update_lines()->void:
 	if Global.in_editor:
-		$Line2D.show()
-	$Line2D2.hide()
+		line2d.show()
+	line2d2.hide()
 	if track_mode!=2:
 		var arr:=PackedVector2Array()
 		arr=points.duplicate()
 		if curve_closed:
 			arr.append(points[0])
 		if track_mode==1:
-			$Path2D.curve.clear_points()
+			path2d.curve.clear_points()
 			var in_out_arr:=generate_smooth_tangents(arr,0.0)
 			for i in arr.size():
-				$Path2D.curve.add_point(arr[i],in_out_arr[i][0],in_out_arr[i][1])
-			$Line2D2.points=$Path2D.curve.tessellate()
-			$Line2D.hide()
+				path2d.curve.add_point(arr[i],in_out_arr[i][0],in_out_arr[i][1])
+			line2d2.points=path2d.curve.tessellate()
+			line2d.hide()
 			if Global.in_editor:
-				$Line2D2.show()
-		$Line2D.points=points
+				line2d2.show()
+		line2d.points=points
 		var node=get_node_or_null("main_pattern_"+str(main_pattern))
 		if node!=null:
 			node.regenerate()
 	elif points.size()>=2:
-		$Line2D2.points=get_easy_ellipse_points(points)
+		line2d2.points=get_easy_ellipse_points(points)
 		if Global.in_editor:
-			$Line2D2.show()
-		$Line2D.points=points
+			line2d2.show()
+		line2d.points=points
 		var node=get_node_or_null("main_pattern_"+str(main_pattern))
 		if node!=null:
 			node.regenerate()
@@ -473,7 +491,7 @@ func get_easy_ellipse_points(input_points: Array) -> Array:
 #endregion
 
 func _update_from_point_nodes()->void:
-	points=$Line2D.points
+	points=line2d.points
 #endregion
 #region property
 var track_mode:int:
@@ -507,8 +525,8 @@ var track_closed:bool:
 	set(value):
 		track_closed=value
 		if track_mode==0||track_mode==2:
-			$Line2D.closed=value
-			$main_pattern_0.closed=value
+			line2d.closed=value
+			main_pattern_0.closed=value
 		elif track_mode==1:
 			curve_closed=value
 var line_density:float:
@@ -539,24 +557,24 @@ var line_width:int:
 	set(value):
 		line_width=value
 		if main_pattern==0:
-			$main_pattern_0.width=value
+			main_pattern_0.width=value
 		elif main_pattern==1:
-			$main_pattern_1/Line2D.width=value
+			main_pattern_1_line2d.width=value
 		elif main_pattern==2:
-			$main_pattern_2/Line2D.width=value
+			main_pattern_2_line2d.width=value
 var main_pattern:int:
 	set(value):
 		main_pattern=value
 		if value==0:
-			$main_pattern_0.visible=true
-			$main_pattern_2.visible=false
-			$main_pattern_1.visible=false
+			main_pattern_0.visible=true
+			main_pattern_2.visible=false
+			main_pattern_1.visible=false
 		elif value==1:
-			$main_pattern_0.visible=false
-			$main_pattern_1.visible=true
-			$main_pattern_2.visible=false
+			main_pattern_0.visible=false
+			main_pattern_1.visible=true
+			main_pattern_2.visible=false
 		elif value==2:
-			$main_pattern_0.visible=false
-			$main_pattern_1.visible=false
-			$main_pattern_2.visible=true
+			main_pattern_0.visible=false
+			main_pattern_1.visible=false
+			main_pattern_2.visible=true
 #endregion

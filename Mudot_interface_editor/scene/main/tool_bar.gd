@@ -12,7 +12,7 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("mouse_left"):
 				if Global.main_node.current_element.can_set_property_names.has("position"):
-					var node=Global.main_node.inspectoscope.get_node_or_null("VBoxContainer/"+"position")
+					var node=Global.main_node.inspectoscope.get_node_or_null("ScrollContainer/VBoxContainer/"+"position")
 					if node!=null:
 						node.value+=event.relative
 						node.update()

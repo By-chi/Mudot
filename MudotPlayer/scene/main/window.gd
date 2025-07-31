@@ -23,6 +23,7 @@ func _on_window_resized()->void:
 	pivot_offset=get_window().size/2
 
 func _ready() -> void:
+	
 	get_window().min_size=Vector2i(574,574)
 	var value=Global.get_configfile("window_memory","window_position",Vector2i.ZERO)
 	if value!=Vector2i.ZERO:
