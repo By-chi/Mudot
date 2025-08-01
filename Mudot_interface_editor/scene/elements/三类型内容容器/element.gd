@@ -6,7 +6,7 @@ func _init() -> void:
 		"size":["Vector2","尺寸",Vector2(100,100)],
 		"position":["Vector2","位置"],
 		"scale":["Vector2","缩放大小",Vector2.ONE],
-		"rotation":["flaot","旋转(角度)"],
+		"rotation":["float","旋转(角度)"],
 		"corner_radius_top_left":["float","左上角圆角半径"],
 		"corner_radius_top_right":["float","右上角圆角半径"],
 		"corner_radius_bottom_left":["float","左下角圆角半径"],

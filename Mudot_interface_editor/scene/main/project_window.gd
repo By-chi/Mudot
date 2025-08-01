@@ -12,9 +12,13 @@ func _on_mudot_pressed() -> void:
 @warning_ignore("unused_parameter")
 func set_mudot_path(status: bool, selected_path: PackedStringArray, selected_filter_index: int)->void:
 	if status:
+		Global.save()
 		Global.load_scene_from_mudot(selected_path[0])
+		queue_free()
 func _on_mudot_text_submitted(new_text:  String) -> void:
+	Global.save()
 	Global.load_scene_from_mudot(new_text)
+	queue_free()
 func _load_property_set_UI_list()->void:
 	if !Global.current_mudot_file_path.is_absolute_path():
 		return

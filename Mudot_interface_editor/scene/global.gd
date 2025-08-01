@@ -59,7 +59,6 @@ func load_scene_from_mudot(path:String)->void:
 	main_node.inspectoscope.hide_inspectoscope()
 	main_node.element_node_list.clear_elements()
 	var template_path = path.get_base_dir()+"/"+data["template_path"]
-	print(template_path)
 	var scene=load(template_path).instantiate()
 	for i in scene.get_children():
 		i.re_init=false
@@ -193,14 +192,12 @@ func _set_owner(node:Node,owner_node:Node)->void:
 	node.scene_file_path=""
 	node.owner=owner_node
 var is_quiting:=false
-func quit()->void:
+func save()->void:
 	if is_quiting:
 		return
 	is_quiting=true
 	main_node.inspectoscope.hide_inspectoscope()
 	var pack=PackedScene.new()
-	for i in main_node.main_scene.get_children():
-		i.owner=main_node.main_scene
 	get_children_deep(main_node.main_scene,_set_owner.bind(main_node.main_scene))
 	pack.pack(main_node.main_scene)
 	var base_dir = current_mudot_file_path.get_base_dir()
@@ -212,7 +209,7 @@ func quit()->void:
 #endregion
 #region 自带函数
 func _ready() -> void:
-	get_window().connect("close_requested",quit)
+	get_window().connect("close_requested",save)
 func _physics_process(delta: float) -> void:
 	if Engine.get_physics_frames()%3==0:
 		if $Outline.visible&&current_show_select_control!=null:

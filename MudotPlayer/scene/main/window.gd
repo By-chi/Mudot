@@ -120,18 +120,18 @@ func change_page(path:String,point:Vector2,new_point:Vector2,cancel_transition_a
 		_on_animation_player_animation_finished("change_page",path,new_point,true)
 func _on_animation_player_animation_finished(anim_name:  StringName,path:String,new_point:Vector2,cancel_transition_animation:=false) -> void:
 	if anim_name=="change_page":
+		while true:
+			var progress: Array = []
+			var status=ResourceLoader.load_threaded_get_status(path,progress)
+			if status==ResourceLoader.THREAD_LOAD_LOADED:
+				new_page=ResourceLoader.load_threaded_get(path).instantiate()
+				break
+			await get_tree().create_timer(0.1).timeout
 		if !cancel_transition_animation:
 			$MeshInstance2D.position=new_point
 			$AnimationPlayer.play_backwards("change_page")
 		var data=Global.get_data_from_json(Global.current_mudot_file_path)
 		$TitleBar/Title.text=data["song_name"]+"  ──── "+data["singer"]
-		while true:
-			var status=ResourceLoader.load_threaded_get_status(path,[])
-			if status==ResourceLoader.THREAD_LOAD_LOADED:
-				new_page=ResourceLoader.load_threaded_get(path).instantiate()
-				break
-			await get_tree().create_timer(0.01).timeout
-			
 		new_page.position=page.position
 		new_page.set_deferred("size",page.size)
 		new_page.clip_contents=true

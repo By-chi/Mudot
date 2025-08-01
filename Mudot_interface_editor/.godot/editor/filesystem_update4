@@ -1,8 +1,8 @@
 res://default_bus_layout.tres
 res://addons/Dragonfruit/system/saved_settings/saved_dragonfruit_settings.tres
-res://scene/main/element_list_element_ui.gd
-res://scene/main/element_list_element_ui.tscn
+res://scene/global.gd
 res://style/main.tres
 res://addons/Dragonfruit/system/tool_theme/dragonfruit_theme.tres
-res://scene/elements/三类型内容容器/element.tscn
-res://scene/elements/三类型内容容器/element.gd
+res://scene/main/project_window.tscn
+res://scene/main/project_window.gd
+res://scene/elements/条形音频可视化/element.gd

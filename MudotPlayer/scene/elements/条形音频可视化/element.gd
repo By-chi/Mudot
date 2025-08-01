@@ -43,15 +43,17 @@ func _init() -> void:
 		"viscosity_weight": ["float", "粘度权重，数值越大，越依赖左右的采样点值，范围0.0~1.0", 0.25]
 	}
 #region get_id
-# 建议在类中添加这些缓存变量
 var _cached_total_length: float = -1.0
 var _cached_curve_length: float = -1.0
 var _cached_arr: PackedVector2Array = PackedVector2Array()
 var _cache_valid: bool = false
-
+var _last_segment_id: int = 0          # 上一次找到的线段索引
+var _last_accumulated_length: float = 0.0  # 上一次线段起点的累计长度
+var _is_continuous: bool = false 
 func get_point_information_by_id(id: int) -> Dictionary:
 	# 提前检查基本条件
 	if points.size() < 1 or line_density < 1:
+		_is_continuous=false
 		return {
 			"position": Vector2.ZERO,
 			"perpendicular_radian": 0.0,
@@ -74,6 +76,7 @@ func get_point_information_by_id(id: int) -> Dictionary:
 			
 			# 检查是否超出范围
 			if target_length >= _cached_total_length + modulus_offset_value:
+				_is_continuous=false
 				return {
 					"position": Vector2.ZERO,
 					"perpendicular_radian": 0.0,
@@ -87,25 +90,89 @@ func get_point_information_by_id(id: int) -> Dictionary:
 			# 路径采样（使用缓存的数组）
 			var accumulated: float = 0.0
 			var arr_size: int = _cached_arr.size()
+			var found: bool = false
+			var current_segment: int = 0
+			var pos: Vector2 = Vector2.ZERO
+			var radian: float = 0.0
 			
-			for i in arr_size-1:
-				var current_point: Vector2 = _cached_arr[i]
-				var next_point: Vector2 = _cached_arr[i+1]
+			if _is_continuous and arr_size > 1:
+				# 连续模式：从上一次的线段开始搜索
+				accumulated = _last_accumulated_length
+				current_segment = _last_segment_id
+				
+				# 检查是否在当前线段范围内
+				var current_point: Vector2 = _cached_arr[current_segment]
+				var next_point: Vector2 = _cached_arr[(current_segment + 1) % arr_size]
 				var segment_length: float = (next_point - current_point).length()
 				
-				if accumulated + segment_length > target_length:
+				if target_length >= accumulated and target_length <= accumulated + segment_length:
+					# 目标在当前线段内
 					var remaining: float = target_length - accumulated
 					var ratio: float = remaining / segment_length
-					var pos: Vector2 = current_point + (next_point - current_point) * ratio
-					var radian: float = (next_point - current_point).angle()
-					
-					return {
-						"position": pos,
-						"perpendicular_radian": radian,
-						"is_valid": true
-					}
+					pos = current_point + (next_point - current_point) * ratio
+					radian = (next_point - current_point).angle()
+					found = true
+				else:
+					# 不在当前线段，从下一个线段开始搜索
+					var search_count: int = 0
+					while search_count < arr_size - 1:
+						current_segment = (current_segment + 1) % (arr_size - 1)
+						if current_segment == 0:
+							accumulated = 0.0
+						else:
+							accumulated += segment_length
+						
+						current_point = _cached_arr[current_segment]
+						next_point = _cached_arr[current_segment + 1]
+						segment_length = (next_point - current_point).length()
+						
+						if target_length >= accumulated and target_length <= accumulated + segment_length:
+							var remaining: float = target_length - accumulated
+							var ratio: float = remaining / segment_length
+							pos = current_point + (next_point - current_point) * ratio
+							radian = (next_point - current_point).angle()
+							found = true
+							break
+						
+						search_count += 1
+			else:
+				# 非连续模式：从起点开始搜索
+				accumulated = 0.0
+				current_segment = 0
 				
-				accumulated += segment_length
+				for i in arr_size - 1:
+					var current_point: Vector2 = _cached_arr[i]
+					var next_point: Vector2 = _cached_arr[i + 1]
+					var segment_length: float = (next_point - current_point).length()
+					
+					if accumulated + segment_length > target_length:
+						var remaining: float = target_length - accumulated
+						var ratio: float = remaining / segment_length
+						pos = current_point + (next_point - current_point) * ratio
+						radian = (next_point - current_point).angle()
+						current_segment = i
+						found = true
+						break
+					
+					accumulated += segment_length
+			
+			if found:
+				# 更新缓存的线段信息
+				_last_segment_id = current_segment
+				_last_accumulated_length = accumulated
+				_is_continuous = true
+				return {
+					"position": pos,
+					"perpendicular_radian": radian,
+					"is_valid": true
+				}
+			else:
+				_is_continuous = false
+				return {
+					"position": Vector2.ZERO,
+					"perpendicular_radian": 0.0,
+					"is_valid": false
+				}
 		
 		1:
 			# 使用缓存的曲线长度
@@ -114,6 +181,7 @@ func get_point_information_by_id(id: int) -> Dictionary:
 			target_length = raw_length + modulus_offset_value
 			
 			if target_length >= _cached_curve_length + modulus_offset_value:
+				_is_continuous=false
 				return {
 					"position": Vector2.ZERO,
 					"perpendicular_radian": 0.0,
@@ -133,13 +201,13 @@ func get_point_information_by_id(id: int) -> Dictionary:
 				).get_rotation()
 			else:
 				direction_radian = transform.get_rotation()
-			
+			_is_continuous=true
 			return {
 				"position": transform.origin,
-								"perpendicular_radian": direction_radian,
+				"perpendicular_radian": direction_radian,
 				"is_valid": true
 			}
-
+	_is_continuous=false
 	# 如果循环结束仍未找到（理论上不应发生）
 	return {
 		"position": Vector2.ZERO,
@@ -175,7 +243,11 @@ func update_cache() -> void:
 # 当路径数据发生变化时调用此函数
 func invalidate_cache() -> void:
 	_cache_valid = false
+	# 缓存失效时重置线段搜索状态
+	_last_segment_id = 0
+	_last_accumulated_length = 0.0
 #endregion
+
 func _ready() -> void:
 	super._ready()
 	if !Global.in_editor:
@@ -189,102 +261,104 @@ func _ready() -> void:
 	_update_from_point_nodes()
 #region realize function
 var bus_effect_instance:AudioEffectSpectrumAnalyzerInstance
-func _physics_process(delta: float) -> void:
-	offset+=delta*10.0
-	if inter_sampling_frame_interval==0||Engine.get_process_frames()%inter_sampling_frame_interval==0:
-		var v:Vector2
-		if main_pattern==0:
-			var count:=main_pattern_0.get_child_count()
-			if count!=0:
-				if main_pattern_0.points.size()==count:
-					var node:=main_pattern_0.get_children()
-					var sampling_density:=float(frequency_max-frequency_min)/count
-					for i in count:
-						v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
-						var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-						var height = base_height*(1.0-response_slow_weight) + node[i].mesh.height*response_slow_weight
-						var prev_height = (base_height + node[i-1].mesh.height) * 0.5
-						var next_height = (base_height + node[(i+1)%node.size()].mesh.height) * 0.5
-						height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
-						if vertical_summetry:
-							height=-height
-						node[i].mesh.height = min(max(absf(height),6),1000)
-						if !main_pattern_0_align_center:
-							node[i].position = main_pattern_0.points[i] + Vector2.UP.rotated(node[i].rotation) * (height/2.0+vertical_shift)
-						else:
-							node[i].position = main_pattern_0.points[i] - Vector2.UP.rotated(node[i].rotation) * (vertical_shift)
-			else:
-				main_pattern_0.regenerate()
-		elif main_pattern==1:
-			var arr:PackedVector2Array=main_pattern_1.points.duplicate()
-			var count:=arr.size()
-			var new_heights:Array[float]
-			if main_pattern_1.points.size()!=0:
+func _process(delta: float) -> void:
+	if inter_sampling_frame_interval!=0&&Engine.get_process_frames()%inter_sampling_frame_interval!=0:
+		return
+	offset+=delta*20.0*inter_sampling_frame_interval
+	var v:Vector2
+	if main_pattern==0:
+		var count:=main_pattern_0.get_child_count()
+		if count!=0:
+			if main_pattern_0.points.size()==count:
+				var node:=main_pattern_0.get_children()
 				var sampling_density:=float(frequency_max-frequency_min)/count
 				for i in count:
 					v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
 					var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-					var height = base_height*(1.0-response_slow_weight) +main_pattern_1.heights[i]*response_slow_weight
-					var prev_height = (base_height + main_pattern_1.heights[i-1]) * 0.5
-					var next_height = (base_height +main_pattern_1.heights[(i+1)%main_pattern_1.heights.size()]) * 0.5
+					var height = base_height*(1.0-response_slow_weight) + node[i].mesh.height*response_slow_weight
+					var prev_height = (base_height + node[i-1].mesh.height) * 0.5
+					var next_height = (base_height + node[(i+1)%node.size()].mesh.height) * 0.5
 					height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
 					if vertical_summetry:
 						height=-height
-					new_heights.append(height)
-					arr[i] = main_pattern_1.points[i] + Vector2.UP.rotated(main_pattern_1.angle[i])*(height+vertical_shift)
-				main_pattern_1_line2d.points=arr
-				main_pattern_1.heights=new_heights
-			else:
-				main_pattern_1.regenerate()
-		elif main_pattern == 2:
-			var count: int = main_pattern_2.points.size()
-			var new_heights: Array[float]
-			var curve_points:=PackedVector2Array()
+					node[i].mesh.height = min(max(absf(height),6),1000)
+					if !main_pattern_0_align_center:
+						node[i].position = main_pattern_0.points[i] + Vector2.UP.rotated(node[i].rotation) * (vertical_shift+height/2.0)
+					
+					else:
+						node[i].position = main_pattern_0.points[i] - Vector2.UP.rotated(node[i].rotation) * (vertical_shift)
+		else:
+			main_pattern_0.regenerate()
+	elif main_pattern==1:
+		var arr:PackedVector2Array=main_pattern_1.points.duplicate()
+		var count:=arr.size()
+		var new_heights:Array[float]
+		if main_pattern_1.points.size()!=0:
+			var sampling_density:=float(frequency_max-frequency_min)/count
+			for i in count:
+				v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
+				var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
+				var height = base_height*(1.0-response_slow_weight) +main_pattern_1.heights[i]*response_slow_weight
+				var prev_height = (base_height + main_pattern_1.heights[i-1]) * 0.5
+				var next_height = (base_height +main_pattern_1.heights[(i+1)%main_pattern_1.heights.size()]) * 0.5
+				height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
+				if vertical_summetry:
+					height=-height
+				new_heights.append(height)
+				arr[i] = main_pattern_1.points[i] + Vector2.UP.rotated(main_pattern_1.angle[i])*(height+vertical_shift)
+			main_pattern_1_line2d.points=arr
+			main_pattern_1.heights=new_heights
+		else:
+			main_pattern_1.regenerate()
+	elif main_pattern == 2:
+		var count: int = main_pattern_2.points.size()
+		var new_heights: Array[float]
+		var curve_points:=PackedVector2Array()
+		
+		if count > 0:
+			main_pattern_2_path2d.curve.clear_points()
+			var sampling_density := float(frequency_max - frequency_min) / count
 			
-			if count > 0:
-				main_pattern_2_path2d.curve.clear_points()
-				var sampling_density := float(frequency_max - frequency_min) / count
+			# 第一步：生成曲线点（保持原有逻辑）
+			for i in count:
+				v = bus_effect_instance.get_magnitude_for_frequency_range(
+					frequency_min + i * sampling_density,
+					frequency_min + i * sampling_density + sampling_density
+				)
+				var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
+				var height = base_height * (1.0 - response_slow_weight) + main_pattern_2.heights[i] * response_slow_weight
 				
-				# 第一步：生成曲线点（保持原有逻辑）
-				for i in count:
-					v = bus_effect_instance.get_magnitude_for_frequency_range(
-						frequency_min + i * sampling_density,
-						frequency_min + i * sampling_density + sampling_density
-					)
-					var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-					var height = base_height * (1.0 - response_slow_weight) + main_pattern_2.heights[i] * response_slow_weight
-					
-					var prev_height = (base_height + main_pattern_2.heights[i-1]) * 0.5
-					var next_height = (base_height + main_pattern_2.heights[(i+1)%main_pattern_2.heights.size()]) * 0.5
-					if vertical_summetry:
-						prev_height=-prev_height
-						next_height=-next_height
-					height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
-					height = abs(height)
-					if vertical_summetry:
-						height = -height
-					#print(height)
-					new_heights.append(height)
-					curve_points.append(main_pattern_2.points[i] + Vector2.UP.rotated(main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
-				# 第二步：调用封装函数生成所有点的in/out向量对
-				var tangent_pairs = generate_smooth_tangents(curve_points, main_pattern_2_smoothness)
+				var prev_height = (base_height + main_pattern_2.heights[i-1]) * 0.5
+				var next_height = (base_height + main_pattern_2.heights[(i+1)%main_pattern_2.heights.size()]) * 0.5
+				if vertical_summetry:
+					prev_height=-prev_height
+					next_height=-next_height
+				height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
+				height = abs(height)
+				if vertical_summetry:
+					height = -height
+				#print(height)
+				new_heights.append(height)
+				curve_points.append(main_pattern_2.points[i] + Vector2.UP.rotated(main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
+			# 第二步：调用封装函数生成所有点的in/out向量对
+			var tangent_pairs = generate_smooth_tangents(curve_points, main_pattern_2_smoothness)
+			
+			# 第三步：添加点并应用切线（替代原有冗长的条件判断）
+			for i in count:
+				var current = curve_points[i]
+				main_pattern_2_path2d.curve.add_point(current)
 				
-				# 第三步：添加点并应用切线（替代原有冗长的条件判断）
-				for i in count:
-					var current = curve_points[i]
-					main_pattern_2_path2d.curve.add_point(current)
-					
-					# 直接从函数返回结果中获取计算好的in/out向量
-					var in_vec = tangent_pairs[i][0]
-					var out_vec = tangent_pairs[i][1]
-					
-					main_pattern_2_path2d.curve.set_point_in(i, in_vec)
-					main_pattern_2_path2d.curve.set_point_out(i, out_vec)
+				# 直接从函数返回结果中获取计算好的in/out向量
+				var in_vec = tangent_pairs[i][0]
+				var out_vec = tangent_pairs[i][1]
 				
-				main_pattern_2.heights = new_heights
-				main_pattern_2.update_line()
-			else:
-				main_pattern_2.regenerate()
+				main_pattern_2_path2d.curve.set_point_in(i, in_vec)
+				main_pattern_2_path2d.curve.set_point_out(i, out_vec)
+			
+			main_pattern_2.heights = new_heights
+			main_pattern_2.update_line()
+		else:
+			main_pattern_2.regenerate()
 func generate_smooth_tangents(points_arr:PackedVector2Array,smoothness: float) -> Array[Array]:
 	var count := points_arr.size()
 	var tangent_pairs: Array[Array] = []
@@ -541,7 +615,7 @@ var inter_sampling_frame_interval:int:
 var vertical_shift:float:
 	set(value):
 		vertical_shift=value
-var main_pattern_0_align_center:float:
+var main_pattern_0_align_center:bool:
 	set(value):
 		main_pattern_0_align_center=value
 var main_pattern_2_smoothness:float:

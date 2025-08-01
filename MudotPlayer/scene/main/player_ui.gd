@@ -85,7 +85,11 @@ func _on_volume_pressed() -> void:
 
 func _on_button_last_pressed() -> void:
 	var arr:PackedStringArray=Global.get_configfile("music_list",$"../TitleBar/HBoxContainer".get_child($"../TitleBar".current_fvorite_id).name)
-	var mudot_path:=arr[(arr.find($"..".page_path)-1)%arr.size()]
+	var index:=arr.find(Global.current_mudot_file_path)-1
+	if index<-1:
+		return
+	var mudot_path:=arr[index]
+	Global.current_mudot_file_path=mudot_path
 	var data=Global.get_data_from_json(mudot_path)
 	if data.has("template_path"):
 		$"..".change_page(mudot_path.get_base_dir()+"/"+data["template_path"],get_window().size/2,get_window().size/2)
@@ -102,7 +106,11 @@ func _on_button_pause_pressed() -> void:
 
 func _on_button_next_pressed() -> void:
 	var arr:PackedStringArray=Global.get_configfile("music_list",$"../TitleBar/HBoxContainer".get_child($"../TitleBar".current_fvorite_id).name)
-	var mudot_path:=arr[(arr.find($"..".page_path)+1)%arr.size()]
+	var index:=(arr.find(Global.current_mudot_file_path)+1)%arr.size()
+	if index<-1:
+		return
+	var mudot_path:=arr[index]
+	Global.current_mudot_file_path=mudot_path
 	var data=Global.get_data_from_json(mudot_path)
 	if data.has("template_path"):
 		$"..".change_page(mudot_path.get_base_dir()+"/"+data["template_path"],get_window().size/2,get_window().size/2)
