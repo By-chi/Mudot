@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dir5rl468nmms"]
+[gd_scene load_steps=3 format=3 uid="uid://dir5rl468nmms"]
 
 [ext_resource type="Script" uid="uid://bnnt4qkxfquhy" path="res://scene/main/property_set/Vector2/Vector2.gd" id="1_qoa4a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xs20d"]
+bg_color = Color(1, 0.4117647, 0.7058824, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 4
 
 [node name="Vector2" type="Label"]
 anchors_preset = 14
@@ -11,6 +19,7 @@ offset_top = -15.5
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xs20d")
 script = ExtResource("1_qoa4a")
 
 [node name="SpinBoxY" type="SpinBox" parent="."]

@@ -1,8 +1,8 @@
 extends Panel
-@export var inspectoscope:Panel
+@export var inspectoscope:ScrollContainer
 @export var property_list:VBoxContainer
-@export var elements:Panel
-@export var element_node_list:Panel
+@export var elements:GridContainer
+@export var element_node_list:VBoxContainer
 @export var tool_bar:HBoxContainer
 @export var main_scene:Control:
 	set(value):

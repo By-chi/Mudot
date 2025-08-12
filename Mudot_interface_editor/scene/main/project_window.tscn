@@ -31,19 +31,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u2vqg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 38.0
+offset_left = 6.0
+offset_top = 41.0
+offset_right = -7.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Mudot" type="Label" parent="Panel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 31.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 230.0
+offset_bottom = 43.0
 text = "项目Mudot文件:"
 
 [node name="Mudot" type="LineEdit" parent="Panel/Mudot"]

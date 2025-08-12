@@ -8,6 +8,8 @@ func _on_spin_boxX_value_changed(new_value:  float) -> void:
 func update()->void:
 	var new_value:Vector2
 	new_value=host.get(property_name)
+	if new_value==null:
+		new_value=Vector2()
 	$SpinBoxX.value=new_value.x
 	$SpinBoxY.value=new_value.y
 	value=Vector2($SpinBoxX.value,$SpinBoxY.value)

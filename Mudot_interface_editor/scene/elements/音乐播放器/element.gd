@@ -9,6 +9,8 @@ func _init() -> void:
 		"position":["Vector2","位置"],
 		#"Position":["Vector2","位置"],
 	}
+func get_current_pos()->float:
+	return $AudioStreamPlayer.get_playback_position()+AudioServer.get_time_since_last_mix()
 var current_playback_progress:=0.0:
 	set(value):
 		current_playback_progress=value
@@ -24,7 +26,7 @@ func _ready() -> void:
 #region property
 var music_path:String:
 	set(value):
-		music_path=value
+		music_path=value.strip_edges()
 		var path:=Global.current_mudot_file_path.get_base_dir()+"/"+music_path
 		if music_path.ends_with("wav"):
 			$AudioStreamPlayer.stream=AudioStreamWAV.load_from_file(
@@ -64,10 +66,6 @@ var volume_linear:float:
 	set(value):
 		volume_linear=value
 		$AudioStreamPlayer.volume_linear=value
-#var Position:Vector2:
-	#set(value):
-		#Position=value
-		#position=value
 #endregion
 
 

@@ -1,8 +1,8 @@
 extends Element
 
 class_name AudioVisualizationLinear
-@onready var path2d = $Path2D
 var curve
+@onready var path2d = $Path2D
 @onready var line2d = $Line2D
 @onready var line2d2 = $Line2D2
 @onready var points_node = $Points
@@ -261,10 +261,23 @@ func _ready() -> void:
 	_update_from_point_nodes()
 #region realize function
 var bus_effect_instance:AudioEffectSpectrumAnalyzerInstance
+var height_cache:PackedFloat32Array=[0.0,0.0,0.0]
+var last_result: float = 0.0
+var threshold: float = 0.3  # 抖动阈值，可根据需要调整
+var smooth_factor: float = 0.1  # 平滑系数，值越小平滑效果越强
+func _get_float_from_height_cache()->float:
+	var current_value = height_cache[0]*0.3 + height_cache[1]*0.3 + height_cache[2]*0.4
+	var diff = abs(current_value - last_result)
+	# 大变化直接采用新值，小变化进行平滑处理
+	if diff > threshold:
+		last_result = current_value
+	else:
+		last_result = last_result * (1 - smooth_factor) + current_value * smooth_factor
+	return last_result
 func _process(delta: float) -> void:
 	if inter_sampling_frame_interval!=0&&Engine.get_process_frames()%inter_sampling_frame_interval!=0:
 		return
-	offset+=delta*20.0*inter_sampling_frame_interval
+	#offset+=delta*20.0*inter_sampling_frame_interval
 	var v:Vector2
 	if main_pattern==0:
 		var count:=main_pattern_0.get_child_count()
@@ -275,7 +288,10 @@ func _process(delta: float) -> void:
 				for i in count:
 					v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
 					var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-					var height = base_height*(1.0-response_slow_weight) + node[i].mesh.height*response_slow_weight
+					height_cache[0]=height_cache[1]
+					height_cache[1]=height_cache[2]
+					height_cache[2]=base_height
+					var height = base_height*(1.0-response_slow_weight) + _get_float_from_height_cache()*response_slow_weight
 					var prev_height = (base_height + node[i-1].mesh.height) * 0.5
 					var next_height = (base_height + node[(i+1)%node.size()].mesh.height) * 0.5
 					height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
@@ -284,7 +300,6 @@ func _process(delta: float) -> void:
 					node[i].mesh.height = min(max(absf(height),6),1000)
 					if !main_pattern_0_align_center:
 						node[i].position = main_pattern_0.points[i] + Vector2.UP.rotated(node[i].rotation) * (vertical_shift+height/2.0)
-					
 					else:
 						node[i].position = main_pattern_0.points[i] - Vector2.UP.rotated(node[i].rotation) * (vertical_shift)
 		else:
@@ -298,12 +313,18 @@ func _process(delta: float) -> void:
 			for i in count:
 				v=bus_effect_instance.get_magnitude_for_frequency_range(frequency_min+i*sampling_density,frequency_min+i*sampling_density+sampling_density)
 				var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-				var height = base_height*(1.0-response_slow_weight) +main_pattern_1.heights[i]*response_slow_weight
+				height_cache[0]=height_cache[1]
+				height_cache[1]=height_cache[2]
+				height_cache[2]=base_height
+				var height = base_height*(1.0-response_slow_weight) + _get_float_from_height_cache()*response_slow_weight
 				var prev_height = (base_height + main_pattern_1.heights[i-1]) * 0.5
 				var next_height = (base_height +main_pattern_1.heights[(i+1)%main_pattern_1.heights.size()]) * 0.5
 				height = height * (1.0-viscosity_weight) +( prev_height  + next_height) * viscosity_weight
 				if vertical_summetry:
 					height=-height
+				height_cache[0]=height_cache[1]
+				height_cache[1]=height_cache[2]
+				height_cache[2]=height
 				new_heights.append(height)
 				arr[i] = main_pattern_1.points[i] + Vector2.UP.rotated(main_pattern_1.angle[i])*(height+vertical_shift)
 			main_pattern_1_line2d.points=arr
@@ -326,7 +347,10 @@ func _process(delta: float) -> void:
 					frequency_min + i * sampling_density + sampling_density
 				)
 				var base_height = min(max((v.x + v.y) * 0.5 * hight_linear, 6), 1000)
-				var height = base_height * (1.0 - response_slow_weight) + main_pattern_2.heights[i] * response_slow_weight
+				height_cache[0]=height_cache[1]
+				height_cache[1]=height_cache[2]
+				height_cache[2]=base_height
+				var height = base_height * (1.0 - response_slow_weight) +  _get_float_from_height_cache() * response_slow_weight
 				
 				var prev_height = (base_height + main_pattern_2.heights[i-1]) * 0.5
 				var next_height = (base_height + main_pattern_2.heights[(i+1)%main_pattern_2.heights.size()]) * 0.5
@@ -337,6 +361,9 @@ func _process(delta: float) -> void:
 				height = abs(height)
 				if vertical_summetry:
 					height = -height
+				height_cache[0]=height_cache[1]
+				height_cache[1]=height_cache[2]
+				height_cache[2]=height
 				#print(height)
 				new_heights.append(height)
 				curve_points.append(main_pattern_2.points[i] + Vector2.UP.rotated(main_pattern_2.angle[i]) * (new_heights[i] + vertical_shift))
@@ -466,6 +493,16 @@ func _add_point(pos:Vector2)->void:
 	point_node.position=pos
 	points_node.add_child(point_node)
 func update_lines()->void:
+	path2d = $Path2D
+	line2d = $Line2D
+	line2d2 = $Line2D2
+	points_node = $Points
+	main_pattern_0 = $main_pattern_0
+	main_pattern_1 = $main_pattern_1
+	main_pattern_1_line2d = $main_pattern_1/Line2D
+	main_pattern_2 = $main_pattern_2
+	main_pattern_2_line2d = $main_pattern_2/Line2D
+	main_pattern_2_path2d = $main_pattern_2/Path2D
 	if Global.in_editor:
 		line2d.show()
 	line2d2.hide()

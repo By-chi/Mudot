@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b1u1qbkoepw7n"]
 
-[ext_resource type="Script" uid="uid://sd4wc4ih06rb" path="res://scene/global.gd" id="1_xibyh"]
+[ext_resource type="Script" uid="uid://t8wfm5nnoywj" path="res://scene/global.gd" id="1_xibyh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xibyh"]
 bg_color = Color(0.1882353, 0.1882353, 0.1882353, 1)
@@ -69,6 +69,7 @@ script = ExtResource("1_xibyh")
 
 [node name="ToolTips" type="Panel" parent="."]
 modulate = Color(1, 1, 1, 0)
+z_index = 99
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2

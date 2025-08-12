@@ -61,3 +61,7 @@ func _on_move_pressed() -> void:
 func _on_spin_box_value_changed(value:  float) -> void:
 	get_parent().move_child(self,int(value))
 	host.get_parent().move_child(host,int(value))
+
+
+func _on_line_edit_focus_exited() -> void:
+	_on_line_edit_text_submitted($LineEdit.text)

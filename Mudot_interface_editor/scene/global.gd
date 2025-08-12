@@ -67,7 +67,14 @@ func load_scene_from_mudot(path:String)->void:
 	# 加载变量数据 - 与场景文件同目录，传入scene作为参考节点
 	var variables_path = template_path.get_basename() + "_variables.json"
 	load_script_variables_from_json(scene, variables_path, scene)  # 增加参考节点参数
-	
+	for i in scene.get_children():
+		var expand_script_dir_path:String=path.get_base_dir()+"/"+get_data_from_json(current_mudot_file_path)["expand_script_dir_path"]+"/"+i.name+".gd"
+		if FileAccess.file_exists(expand_script_dir_path):
+			save_all_properties(i)
+			var script:Script=ResourceLoader.load(expand_script_dir_path,"Script")
+			i.set_script(script)
+			load_all_properties(i)
+		
 
 
 # 从JSON加载节点脚本变量，增加reference_node参数
@@ -136,7 +143,7 @@ static func create_if_missing(path:String)->void:
 		FileAccess.get_open_error()
 		file.close()
 func load_image_from_absolute_path(path: String) -> Texture2D:
-	if path==""||path.ends_with("/"):
+	if !FileAccess.file_exists(path):
 		return null
 	var image = Image.new()
 	var err = image.load(path)
@@ -215,7 +222,14 @@ func _physics_process(delta: float) -> void:
 		if $Outline.visible&&current_show_select_control!=null:
 			select_control_box(current_show_select_control)
 #endregion
-
+func build_expand_script()->void:
+	for i in main_node.main_scene.get_children():
+		var expand_script_dir_path:String=current_mudot_file_path.get_base_dir()+"/"+get_data_from_json(current_mudot_file_path)["expand_script_dir_path"]+"/"+i.name+".gd"
+		if FileAccess.file_exists(expand_script_dir_path):
+			save_all_properties(i)
+			var script:Script=ResourceLoader.load(expand_script_dir_path,"Script",ResourceLoader.CACHE_MODE_IGNORE)
+			i.set_script(script)
+			load_all_properties(i)
 #region other functions
 var select_control_box_visibility_region:Rect2
 var current_show_select_control:Control
@@ -258,3 +272,79 @@ func get_type_default_from_set_property_names(set_property_names:Dictionary)->Ar
 			arr.append([i,get_type_default_from_string(type)])
 	return arr
 #endregion
+# 用于临时存储所有属性的信息和值
+var _temp_saved_props: Array = []  # 存储属性元信息（名称、类型等）
+var _temp_saved_values: Dictionary = {}  # 存储属性值（键为属性名）
+
+func save_all_properties(node: Node) -> bool:
+	_temp_saved_props.clear()
+	_temp_saved_values.clear()
+	
+	var all_props = node.get_property_list()
+	if all_props == []:
+		print("节点没有可保存的属性")
+		return false
+	
+	for prop in all_props:
+		# 核心修改：直接跳过"script"属性，不保存也不恢复
+		if prop["name"] == "script":
+			continue  # 遇到script属性直接跳过
+		# 原有逻辑：排除下划线开头的内置私有属性
+		if not prop["name"].begins_with("_") and prop["type"] != TYPE_NIL:
+			# 只保存普通属性的元信息和值
+			_temp_saved_props.append({
+				"name": prop["name"],
+				"type": prop["type"],
+				"hint": prop.get("hint", 0),
+				"hint_string": prop.get("hint_string", "")
+			})
+			_temp_saved_values[prop["name"]] = node.get(prop["name"])
+	return true
+func load_all_properties(node: Node) -> bool:
+	if _temp_saved_props==[] or _temp_saved_values=={}:
+		print("没有可加载的属性数据，请先调用save_all_properties")
+		return false
+	
+	# 逐个恢复属性值
+	for prop_info in _temp_saved_props:
+		var prop_name = prop_info["name"]
+		
+		# 尝试获取新脚本中该属性的类型
+		var new_prop_type = node.get_property_list().find_custom(func(p): return p["name"] == prop_name)
+		if new_prop_type == -1:
+			continue
+		
+		new_prop_type = node.get_property_list()[new_prop_type]["type"]
+		
+		# 转换值类型并设置
+		var saved_value = _temp_saved_values[prop_name]
+		var converted_value = _convert_value_to_type(saved_value, new_prop_type)
+
+		node.set(prop_name, converted_value)
+	
+	_temp_saved_props.clear()
+	_temp_saved_values.clear()
+	return true
+
+
+# 辅助函数：根据目标类型转换值
+func _convert_value_to_type(value, target_type: int) -> Variant:
+	# 使用Godot的类型常量进行转换
+	match target_type:
+		TYPE_INT: return int(value)
+		TYPE_FLOAT: return float(value)
+		TYPE_BOOL: return bool(value)
+		TYPE_STRING: return str(value)
+		TYPE_COLOR:
+			if value is Color:
+				return value
+			elif value is Array and value.size() >= 3:
+				return Color(value[0], value[1], value[2], value[3] if value.size() > 3 else 1.0)
+		TYPE_VECTOR2:
+			if value is Vector2:
+				return value
+			elif value is Array and value.size() == 2:
+				return Vector2(value[0], value[1])
+		# 可根据需要添加更多类型支持
+		_: return value
+	return value

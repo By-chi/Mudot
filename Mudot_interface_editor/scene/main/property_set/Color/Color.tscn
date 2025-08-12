@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtkhmc8p6lacx"]
+[gd_scene load_steps=3 format=3 uid="uid://dtkhmc8p6lacx"]
 
 [ext_resource type="Script" uid="uid://bnw5l4sw6r1n1" path="res://scene/main/property_set/Color/Color.gd" id="1_tqfxp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncjww"]
+bg_color = Color(0.6, 0.19607843, 0.8, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 4
 
 [node name="Color" type="Label"]
 anchors_preset = 14
@@ -11,6 +19,7 @@ offset_top = -15.5
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ncjww")
 script = ExtResource("1_tqfxp")
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="."]

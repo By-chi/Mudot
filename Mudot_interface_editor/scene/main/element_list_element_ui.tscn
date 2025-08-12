@@ -131,6 +131,7 @@ text = "复制"
 layout_mode = 2
 text = "删除"
 
+[connection signal="focus_exited" from="LineEdit" to="." method="_on_line_edit_focus_exited"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="Doubel" to="." method="_on_doubel_timeout"]

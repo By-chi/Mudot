@@ -8,5 +8,7 @@ func _on_color_picker_button_color_changed(color:  Color) -> void:
 func update()->void:
 	var new_value
 	new_value=host.get(property_name)
+	if new_value==null:
+		new_value=Color()
 	$ColorPickerButton.color=new_value
 	value=new_value

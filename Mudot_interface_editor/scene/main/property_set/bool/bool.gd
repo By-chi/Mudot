@@ -5,6 +5,8 @@ func _ready() -> void:
 func update()->void:
 	var new_value
 	new_value=host.get(property_name)
+	if new_value==null:
+		new_value=bool()
 	$CheckButton.button_pressed=new_value
 	value=bool(new_value)
 func _on_check_button_toggled(new_value:  bool) -> void:

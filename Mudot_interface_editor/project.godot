@@ -36,7 +36,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Dragonfruit/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray()
 
 [gui]
 

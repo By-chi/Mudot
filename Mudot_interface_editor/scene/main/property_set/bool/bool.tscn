@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwj2e4c12c3ia"]
+[gd_scene load_steps=3 format=3 uid="uid://bwj2e4c12c3ia"]
 
 [ext_resource type="Script" uid="uid://bmln1q62uhmor" path="res://scene/main/property_set/bool/bool.gd" id="1_8syae"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nchr"]
+bg_color = Color(1, 0.34117648, 0.2, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 4
 
 [node name="Bool" type="Label"]
 anchors_preset = 14
@@ -11,6 +19,7 @@ offset_top = -15.5
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_8nchr")
 script = ExtResource("1_8syae")
 
 [node name="CheckButton" type="CheckButton" parent="."]

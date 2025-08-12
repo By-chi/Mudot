@@ -10,6 +10,7 @@ script = ExtResource("1_bgqm7")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 autoplay = true
+mix_target = 1
 bus = &"Music"
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

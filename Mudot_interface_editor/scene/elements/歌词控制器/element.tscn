@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://coxjt3fogaiqw"]
+
+[ext_resource type="Script" uid="uid://batue1morocix" path="res://scene/elements/歌词控制器/element.gd" id="1_6d3ra"]
+
+[node name="Element" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+focus_mode = 1
+mouse_filter = 2
+script = ExtResource("1_6d3ra")

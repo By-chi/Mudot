@@ -1,14 +1,3 @@
-Panel
-SpinBox
-ScrollContainer
-CanvasLayer
-Camera2D
-LineEdit
-Path2D
-VBoxContainer
-Button
 Label
-PropertySetUI
-Line2D
-PathFollow2D
-MeshInstance2D
+ScrollContainer
+TextEdit
