@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://q50i3baf4m16"]
+[gd_scene load_steps=29 format=3 uid="uid://q50i3baf4m16"]
 
 [ext_resource type="Script" uid="uid://dt11m8uqkhywf" path="res://scene/main/main.gd" id="1_6vuhr"]
 [ext_resource type="Script" uid="uid://d2lmeual4shs2" path="res://scene/main/head.gd" id="1_am8c5"]
@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://bxf7t84k0coew" path="res://texture/move.svg" id="5_onf7c"]
 [ext_resource type="Texture2D" uid="uid://y2di32ko63qx" path="res://texture/Build.svg" id="6_si3g0"]
 [ext_resource type="Texture2D" uid="uid://brp1hx2ovgx8c" path="res://texture/transparent.png" id="10_pidc3"]
+[ext_resource type="Script" uid="uid://bqpy8o68lgcb3" path="res://scene/main/tail.gd" id="11_36wa8"]
+[ext_resource type="Texture2D" uid="uid://rqbgn3x0uk3r" path="res://texture/save.svg" id="12_n5o2v"]
+[ext_resource type="Texture2D" uid="uid://cfwj64yaxmd00" path="res://texture/undo.svg" id="13_n5o2v"]
+[ext_resource type="Texture2D" uid="uid://ctm3eg26u2755" path="res://texture/redo.svg" id="14_ruc3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nakj2"]
 bg_color = Color(0.97604996, 0.97604996, 0.97604984, 1)
@@ -81,7 +85,31 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
-[node name="Control" type="Panel" node_paths=PackedStringArray("inspectoscope", "property_list", "elements", "element_node_list", "tool_bar", "main_scene")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruc3j"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ortbh"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0.6745098, 0.94117653, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+corner_detail = 2
+
+[node name="Control" type="Panel" node_paths=PackedStringArray("inspectoscope", "property_list", "elements", "element_node_list", "tool_bar", "tail", "main_scene")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -91,9 +119,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_nakj2")
 script = ExtResource("1_6vuhr")
 inspectoscope = NodePath("Body/SplitContainer/Right/PropertySet")
 property_list = NodePath("Body/SplitContainer/Right/PropertySet/VBoxContainer")
-elements = NodePath("Body/SplitContainer/SplitContainer/UP/GridContainer")
-element_node_list = NodePath("Body/SplitContainer/SplitContainer/Down/VBoxContainer")
+elements = NodePath("Body/SplitContainer/SplitContainer/ElementList/GridContainer")
+element_node_list = NodePath("Body/SplitContainer/SplitContainer/ElementNodeList/VBoxContainer")
 tool_bar = NodePath("Head/ToolBar")
+tail = NodePath("Tail")
 main_scene = NodePath("Body/SplitContainer/Right/Centre/Control")
 
 [node name="Head" type="Panel" parent="."]
@@ -197,13 +226,13 @@ theme_override_constants/separation = 4
 theme_override_icons/v_grabber = SubResource("SVGTexture_a0c6e")
 vertical = true
 
-[node name="UP" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
-custom_minimum_size = Vector2(350, 200)
+[node name="ElementList" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
+custom_minimum_size = Vector2(350, 400)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_snrr3")
 horizontal_scroll_mode = 0
 
-[node name="GridContainer" type="GridContainer" parent="Body/SplitContainer/SplitContainer/UP"]
+[node name="GridContainer" type="GridContainer" parent="Body/SplitContainer/SplitContainer/ElementList"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -212,13 +241,13 @@ theme_override_constants/v_separation = 14
 columns = 2
 script = ExtResource("2_0imob")
 
-[node name="Down" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
+[node name="ElementNodeList" type="ScrollContainer" parent="Body/SplitContainer/SplitContainer"]
 custom_minimum_size = Vector2(350, 200)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_snrr3")
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/SplitContainer/Down"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/SplitContainer/SplitContainer/ElementNodeList"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -256,7 +285,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Tail" type="Panel" parent="."]
+[node name="Tail" type="Panel" parent="." node_paths=PackedStringArray("progress_bar")]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -266,9 +295,52 @@ offset_top = -57.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6vuhr")
-script = ExtResource("1_am8c5")
+script = ExtResource("11_36wa8")
+progress_bar = NodePath("HBoxContainer/ProgressBar")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Tail"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_right = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Save" type="Button" parent="Tail/HBoxContainer"]
+custom_minimum_size = Vector2(57, 0)
+layout_mode = 2
+icon = ExtResource("12_n5o2v")
+expand_icon = true
+
+[node name="Undo" type="Button" parent="Tail/HBoxContainer"]
+custom_minimum_size = Vector2(57, 0)
+layout_mode = 2
+icon = ExtResource("13_n5o2v")
+expand_icon = true
+
+[node name="Redo" type="Button" parent="Tail/HBoxContainer"]
+custom_minimum_size = Vector2(57, 0)
+layout_mode = 2
+icon = ExtResource("14_ruc3j")
+expand_icon = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Tail/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/background = SubResource("StyleBoxFlat_ruc3j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ortbh")
+value = 50.0
 
 [connection signal="pressed" from="Head/HBoxContainer/Project" to="Head" method="_on_project_pressed"]
 [connection signal="pressed" from="Head/ToolBar/Select" to="Head/ToolBar" method="_on_select_pressed"]
 [connection signal="pressed" from="Head/ToolBar/Move" to="Head/ToolBar" method="_on_move_pressed"]
 [connection signal="pressed" from="Head/ToolBar/Build" to="Head/ToolBar" method="_on_build_pressed"]
+[connection signal="pressed" from="Tail/HBoxContainer/Save" to="Tail" method="_on_save_pressed"]
+[connection signal="pressed" from="Tail/HBoxContainer/Undo" to="Tail" method="_on_undo_pressed"]
+[connection signal="pressed" from="Tail/HBoxContainer/Redo" to="Tail" method="_on_redo_pressed"]

@@ -48,14 +48,14 @@ var color:Color:
 		
 var picture_path:String:
 	set(value):
-		picture_path=value
+		picture_path=value.strip_edges()
 		if picture_path!="":
 			$TextureRect.texture=Global.load_image_from_absolute_path(
 				Global.current_mudot_file_path.get_base_dir()+"/"+value
 			)
 var video_path:String:
 	set(value):
-		video_path=value
+		video_path=value.strip_edges()
 		if video_path!="":
 			$VideoStreamPlayer.stream.file=Global.current_mudot_file_path.get_base_dir()+"/"+value
 			if mode_index==2:
@@ -68,7 +68,7 @@ var picture_stretch_mode:int:
 	set(value):
 		picture_stretch_mode=value
 		$TextureRect.stretch_mode=value
-var video_expand:int:
+var video_expand:bool:
 	set(value):
 		video_expand=value
 		$VideoStreamPlayer.expand=value

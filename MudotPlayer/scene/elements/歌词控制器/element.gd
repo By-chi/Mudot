@@ -89,7 +89,7 @@ func get_lyric_by_time(time:float,offset_id:=0)->String:
 #region property
 var lyric_path:String:
 	set(value):
-		lyric_path=value
+		lyric_path=value.strip_edges()
 		if lyric_path==null||lyric_path=="":
 			return
 		var file:=FileAccess.open(Global.current_mudot_file_path.get_base_dir()+"/"+lyric_path,FileAccess.READ)
@@ -120,7 +120,7 @@ func _print_lyric_path()->void:
 var audio_node:MusicPlayer
 var audio:String:
 	set(value):
-		audio=value
+		audio=value.strip_edges()
 		if Global.in_editor:
 			audio_node=Global.main_node.main_scene.get_node_or_null(audio)
 		else:
@@ -135,7 +135,7 @@ func style_node_ready()->void:
 		i.queue_free()
 var style:String:
 	set(value):
-		style=value
+		style=value.strip_edges()
 		if style=="":
 			return
 		if Global.in_editor:

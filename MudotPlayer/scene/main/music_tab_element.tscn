@@ -155,6 +155,7 @@ offset_bottom = 332.0
 grow_vertical = 2
 mouse_filter = 2
 expand_mode = 5
+stretch_mode = 5
 
 [node name="ColorRect" type="ColorRect" parent="TextureRect"]
 material = SubResource("ShaderMaterial_kln0s")

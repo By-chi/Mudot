@@ -41,4 +41,7 @@ allow_greater = true
 allow_lesser = true
 custom_arrow_step = 0.1
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

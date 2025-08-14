@@ -37,4 +37,4 @@ grow_horizontal = 0
 grow_vertical = 2
 flat = true
 
-[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="CheckButton" to="." method="_on_check_button_pressed"]

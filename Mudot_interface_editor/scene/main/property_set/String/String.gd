@@ -12,4 +12,6 @@ func update()->void:
 
 
 func _on_text_edit_text_changed() -> void:
+	old=value
 	value=$TextEdit.text
+	add_unredo()

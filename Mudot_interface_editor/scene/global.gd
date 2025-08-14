@@ -74,7 +74,6 @@ func load_scene_from_mudot(path:String)->void:
 			var script:Script=ResourceLoader.load(expand_script_dir_path,"Script")
 			i.set_script(script)
 			load_all_properties(i)
-		
 
 
 # 从JSON加载节点脚本变量，增加reference_node参数
@@ -161,7 +160,6 @@ func save_script_variables_to_json(node: Node, json_path: String, reference_node
 	if file:
 		file.store_string(JSON.stringify(variables_data, "\t"))
 		file.close()
-		print("变量已保存到: ", json_path)
 	else:
 		print("无法保存变量文件: ", json_path)
 
@@ -198,12 +196,33 @@ func get_children_deep(node: Node,call_func:Callable,include_internal:=true) -> 
 func _set_owner(node:Node,owner_node:Node)->void:
 	node.scene_file_path=""
 	node.owner=owner_node
-var is_quiting:=false
+func set_progress(value:float,is_end:=false)->void:
+	main_node.tail.set_progress(value,is_end)
+	
 func save()->void:
-	if is_quiting:
-		return
-	is_quiting=true
+	await get_tree().process_frame
 	main_node.inspectoscope.hide_inspectoscope()
+	set_progress(10)
+	await get_tree().process_frame
+	var pack=PackedScene.new()
+	get_children_deep(main_node.main_scene,_set_owner.bind(main_node.main_scene))
+	set_progress(30)
+	await get_tree().process_frame
+	pack.pack(main_node.main_scene)
+	set_progress(50)
+	await get_tree().process_frame
+	var base_dir = current_mudot_file_path.get_base_dir()
+	var template_path = get_data_from_json(current_mudot_file_path)["template_path"]
+	var scene_path = base_dir + "/" + template_path
+	var variables_path = scene_path.get_basename() + "_variables.json"
+	set_progress(60)
+	await get_tree().process_frame
+	ResourceSaver.save(pack, scene_path)
+	set_progress(80)
+	await get_tree().process_frame
+	save_script_variables_to_json(main_node.main_scene, variables_path, main_node.main_scene)
+	set_progress(100, true)
+func save_fast()->void:
 	var pack=PackedScene.new()
 	get_children_deep(main_node.main_scene,_set_owner.bind(main_node.main_scene))
 	pack.pack(main_node.main_scene)
@@ -212,15 +231,29 @@ func save()->void:
 	var scene_path = base_dir + "/" + template_path
 	var variables_path = scene_path.get_basename() + "_variables.json"
 	ResourceSaver.save(pack, scene_path)
-	save_script_variables_to_json(main_node.main_scene, variables_path, main_node.main_scene)  # 增加参考节点参数
+	save_script_variables_to_json(main_node.main_scene, variables_path, main_node.main_scene)
 #endregion
 #region 自带函数
 func _ready() -> void:
-	get_window().connect("close_requested",save)
+	get_window().connect("close_requested",save_fast,CONNECT_ONE_SHOT)
 func _physics_process(delta: float) -> void:
 	if Engine.get_physics_frames()%3==0:
 		if $Outline.visible&&current_show_select_control!=null:
 			select_control_box(current_show_select_control)
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if Input.is_action_pressed("undo"):
+			if unredo.has_undo():
+				unredo.undo()
+			else:
+				print("No Undo!")
+		elif Input.is_action_pressed("redo"):
+			if unredo.has_redo():
+				unredo.redo()
+			else:
+				print("No Redo!")
+		elif Input.is_action_just_pressed("save"):
+			save()
 #endregion
 func build_expand_script()->void:
 	for i in main_node.main_scene.get_children():
@@ -272,6 +305,7 @@ func get_type_default_from_set_property_names(set_property_names:Dictionary)->Ar
 			arr.append([i,get_type_default_from_string(type)])
 	return arr
 #endregion
+#region
 # 用于临时存储所有属性的信息和值
 var _temp_saved_props: Array = []  # 存储属性元信息（名称、类型等）
 var _temp_saved_values: Dictionary = {}  # 存储属性值（键为属性名）
@@ -348,3 +382,8 @@ func _convert_value_to_type(value, target_type: int) -> Variant:
 		# 可根据需要添加更多类型支持
 		_: return value
 	return value
+#endregion
+#region 撤销/重做
+var unredo:=UndoRedo.new()
+var constantly_changing_frozen_time:=0.2
+#endregion

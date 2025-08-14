@@ -68,7 +68,7 @@ var picture_stretch_mode:int:
 	set(value):
 		picture_stretch_mode=value
 		$TextureRect.stretch_mode=value
-var video_expand:int:
+var video_expand:bool:
 	set(value):
 		video_expand=value
 		$VideoStreamPlayer.expand=value

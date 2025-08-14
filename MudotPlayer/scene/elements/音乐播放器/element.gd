@@ -26,7 +26,7 @@ func _ready() -> void:
 #region property
 var music_path:String:
 	set(value):
-		music_path=value
+		music_path=value.strip_edges()
 		var path:=Global.current_mudot_file_path.get_base_dir()+"/"+music_path
 		if music_path.ends_with("wav"):
 			$AudioStreamPlayer.stream=AudioStreamWAV.load_from_file(

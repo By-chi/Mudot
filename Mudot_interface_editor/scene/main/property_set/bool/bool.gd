@@ -9,5 +9,8 @@ func update()->void:
 		new_value=bool()
 	$CheckButton.button_pressed=new_value
 	value=bool(new_value)
-func _on_check_button_toggled(new_value:  bool) -> void:
-	value=new_value
+
+func _on_check_button_pressed() -> void:
+	old=value
+	value=$CheckButton.button_pressed
+	add_unredo()

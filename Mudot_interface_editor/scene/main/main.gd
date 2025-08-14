@@ -4,6 +4,7 @@ extends Panel
 @export var elements:GridContainer
 @export var element_node_list:VBoxContainer
 @export var tool_bar:HBoxContainer
+@export var tail:Panel
 @export var main_scene:Control:
 	set(value):
 		main_scene=value

@@ -1,10 +1,10 @@
-res://scene/main/main.tscn::161366a4251e7b17d0850d5a22db2eb2::1754024857::res://.godot/exported/2647419338/export-9d3a47e75767e89ed77c9e4cf11a463a-main.scn
-res://scene/main/main_page.tscn::a0090426cbe6977fec825dff631cbccf::1754053374::res://.godot/exported/2647419338/export-9245cd9de94a7525d7d40cfe29394a39-main_page.scn
-res://scene/main/music_tab_element.tscn::0e11323e505468320a86e60f9caaa6ad::1754021139::res://.godot/exported/2647419338/export-966e3ba7912782ae666be153f3cf3cf1-music_tab_element.scn
+res://scene/main/main.tscn::161366a4251e7b17d0850d5a22db2eb2::1754920936::res://.godot/exported/2647419338/export-9d3a47e75767e89ed77c9e4cf11a463a-main.scn
+res://scene/main/main_page.tscn::dbddf35cc029ba8f1c6a310a725f8d8d::1755165756::res://.godot/exported/2647419338/export-9245cd9de94a7525d7d40cfe29394a39-main_page.scn
+res://scene/main/music_tab_element.tscn::7ef39d952c52adaa36c121a03091f2c2::1755165714::res://.godot/exported/2647419338/export-966e3ba7912782ae666be153f3cf3cf1-music_tab_element.scn
 res://scene/Global.tscn::a3dd28ca14fba64118fc43903dd1b5cc::1753798685::res://.godot/exported/2647419338/export-f113e7c87fe35c9bd950f6e586d258cb-Global.scn
 res://shader/GaussianBlur.gdshader::1dce47b2a3a6ef3ae8cbf4d29d4ae453::1753781661::
 res://shader/music_tab_element.gdshader::65a60e8a45200a8c2bdeb1556ad59076::1753781661::
-res://style/main.tres::2898ca8fa81905b74fa82baa3f770296::1754052998::res://.godot/exported/2647419338/export-723ab6be7fa4714bb5f494ae5e264d1c-main.res
+res://style/main.tres::2898ca8fa81905b74fa82baa3f770296::1755165661::res://.godot/exported/2647419338/export-723ab6be7fa4714bb5f494ae5e264d1c-main.res
 res://texture/add.svg::818d62aa603ab668c7ce59ce1e6f6af2bd857537d3e821ab6162474cf2f09bbe::1752726220::
 res://texture/back.svg::335f750522e9339b2f0c39ec60c4aac0745b6973fd93faff96e91e504571bcb8::1752895557::
 res://texture/close.svg::593d8f05736d85c49169bcf3048168bfe4475df7a8bc3df7994f95b94587f9d7::1752671372::
@@ -22,11 +22,11 @@ res://addons/Dragonfruit/system/git-pics/ShaderEditor.png::a8df4950387102af00e2f
 res://addons/Dragonfruit/system/git-pics/slide-ex.jpg::43b4f133558a07ac6aaf9849fe1024834c32491209826b607d81a5e5d044491a::1753011653::
 res://addons/Dragonfruit/system/git-pics/Split.png::d6d5746a92f35cb70fa47d186bd4605f54f11a8de2e28e1a2daf84c23aaf8d3b::1753011653::
 res://addons/Dragonfruit/system/git-pics/vid-ex.jpg::0613dce8c3fdcd817941c047db03881cb06e0cc5361b1fde9ba9fa83c02221a6::1753011653::
-res://addons/Dragonfruit/system/saved_settings/saved_dragonfruit_settings.tres::fed1422f834b99a074893852f51afbba::1754041575::res://.godot/exported/2647419338/export-f2825d54357f632f043464499f62df65-saved_dragonfruit_settings.res
+res://addons/Dragonfruit/system/saved_settings/saved_dragonfruit_settings.tres::fed1422f834b99a074893852f51afbba::1755181069::res://.godot/exported/2647419338/export-f2825d54357f632f043464499f62df65-saved_dragonfruit_settings.res
 res://addons/Dragonfruit/system/scenes/dragonfruit_panel.tscn::b649711c438b46b10397acc371ebcf39::1753011653::res://.godot/exported/2647419338/export-8c2376530f8d8870518cc62591a60edd-dragonfruit_panel.scn
 res://addons/Dragonfruit/system/scenes/dragonfruit_user_video_scene.tscn::2db2ec4d06635a67b953fd909758535a::1753011653::res://.godot/exported/2647419338/export-8c5c2969b9d3b57902ac175714fec451-dragonfruit_user_video_scene.scn
 res://addons/Dragonfruit/system/tool_theme/banner.jpg::e78b827ff11adf7f7895826db0c0e8853df3469a268ced0b90b450650f580aec::1753011653::
-res://addons/Dragonfruit/system/tool_theme/dragonfruit_theme.tres::38c73a612f8f0d11bf9777965589441b::1754052998::res://.godot/exported/2647419338/export-a6d9695a2bd70099c1853c9eca169752-dragonfruit_theme.res
+res://addons/Dragonfruit/system/tool_theme/dragonfruit_theme.tres::38c73a612f8f0d11bf9777965589441b::1755165661::res://.godot/exported/2647419338/export-a6d9695a2bd70099c1853c9eca169752-dragonfruit_theme.res
 res://addons/Dragonfruit/user_custom_bg_theme/561534295_dragonfruit_bg_theme.tres::23e0cc294272ad12177e7e225cb141a8::1753849059::res://.godot/exported/2647419338/export-19df98c234721a0949ba1595f4f6782a-561534295_dragonfruit_bg_theme.res
 res://addons/Dragonfruit/background.png::83aa294bb96747872bb6d5f0c3e9f2bc8a1bb3102c119f1b0723dcd6bbadc75f::1753011653::
 res://addons/script-ide/icon/class.svg::b41144716565f2b5f11b998b879af2e8a551b66a0945b2852e2347485f3b5411::1753011653::
@@ -40,8 +40,8 @@ res://addons/script-ide/icon/property.svg::bc9621f5b282277674d7f22926767771dafdc
 res://addons/script-ide/icon/signal.svg::f174828f5a893f18be9311f8c79890b45d375436468217a33cc12d208ef62972::1753011653::
 res://addons/script-ide/override/override_panel.tscn::2d4b920acfb6221901c1bee4b27051e0::1753011653::res://.godot/exported/2647419338/export-3c242377f220d5efa6515391e37728a4-override_panel.scn
 res://addons/script-ide/quickopen/quick_open_panel.tscn::46deff443e5493257ba00def044bef01::1753011653::res://.godot/exported/2647419338/export-ea4449fb1405d231526112789002da2b-quick_open_panel.scn
-res://scene/elements/音乐播放器/element.tscn::14fee8ac6b40022fadfdb914a6f09c80::1753764660::res://.godot/exported/2647419338/export-f18109d8e9aeed889ac84029dda6980c-element.scn
-res://default_bus_layout.tres::ef3a5118712eca2eb83bc7b0ce706607::1754053374::res://.godot/exported/2647419338/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res
+res://scene/elements/音乐播放器/element.tscn::1baa3b2a2c8955df81f5812baad44412::1754744649::res://.godot/exported/2647419338/export-f18109d8e9aeed889ac84029dda6980c-element.scn
+res://default_bus_layout.tres::ef3a5118712eca2eb83bc7b0ce706607::1755181066::res://.godot/exported/2647419338/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res
 res://scene/elements/条形音频可视化/element.tscn::92e8321a9072c510c323cfc5e0c30bbf::1754045649::res://.godot/exported/2647419338/export-edc715438e7a8b1af456d04e19b06c29-element.scn
 res://scene/elements/条形音频可视化/point.tscn::bbf3498388a26114b67fb78e6f1615f4::1753851066::res://.godot/exported/2647419338/export-a28cc4b4d8e990e9dc7d653fda341503-point.scn
 res://scene/elements/背景/element.tscn::7afe7377d78391600eebb251ff30dd4c::1754029109::res://.godot/exported/2647419338/export-1ed506bf1231c3c41c78ee6f6e59ea2a-element.scn
@@ -53,3 +53,5 @@ res://texture/loudspeaker.svg::0e9ae9f95abee58a5fa5db409273a146f18f14e933c0c1f10
 res://texture/next.svg::225d0780ba0f38626f411e63744254463219a2080dd20202167e598da6837b05::1753790479::
 res://texture/pause.svg::ed2cc9a261a1703e016069ade360226b1b3aafd524aecb2e7548278a8d0b8086::1753791414::
 res://scene/elements/三类型内容容器/element.tscn::28608dd51011beb2da142b6f13360a53::1754019763::res://.godot/exported/2647419338/export-5f3c101eae3b45cc1b076731fa70489d-element.scn
+res://scene/elements/标签样式/element.tscn::769104b7eadc6002b73f9078400166a6::1754974774::res://.godot/exported/2647419338/export-b16d3a101bb1a1c5df67eb339eb227c7-element.scn
+res://scene/elements/歌词控制器/element.tscn::f4e697a0750d2172976b21d872f2b198::1754988302::res://.godot/exported/2647419338/export-c27dcd00e1e81ea926faf11c38bdc921-element.scn
