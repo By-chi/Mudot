@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://0dwuls02cqqa"]
+
+[ext_resource type="Script" uid="uid://edhetiqk47hg" path="res://scene/main/new_project_window.gd" id="1_rxcwr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ny5tr"]
+bg_color = Color(0.19064951, 0.20574987, 0.23603474, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15294118, 0.15294118, 0.15294118, 1)
+anti_aliasing = false
+
+[node name="NewProjectWindow" type="Window"]
+disable_3d = true
+oversampling_override = 1.0
+title = "新建"
+initial_position = 2
+size = Vector2i(800, 500)
+transient = true
+exclusive = true
+minimize_disabled = true
+maximize_disabled = true
+script = ExtResource("1_rxcwr")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ny5tr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mudot" type="Label" parent="Panel/VBoxContainer"]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "项目Mudot文件目录:"
+
+[node name="Mudot" type="LineEdit" parent="Panel/VBoxContainer/Mudot"]
+layout_mode = 0
+offset_left = 305.0
+offset_top = 7.0
+offset_right = 415.0
+offset_bottom = 37.0
+
+[node name="Open" type="Button" parent="Panel/VBoxContainer/Mudot"]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 7.0
+offset_right = 475.0
+offset_bottom = 37.0
+text = "打开"
+
+[node name="Name" type="Label" parent="Panel/VBoxContainer"]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "项目名称"
+
+[node name="Name" type="LineEdit" parent="Panel/VBoxContainer/Name"]
+layout_mode = 0
+offset_left = 305.0
+offset_top = 7.0
+offset_right = 415.0
+offset_bottom = 37.0
+
+[node name="Yes" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+disabled = true
+text = "确定"
+
+[node name="No" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 200.0
+grow_vertical = 0
+text = "取消"
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="text_submitted" from="Panel/VBoxContainer/Mudot/Mudot" to="." method="_on_mudot_text_submitted"]
+[connection signal="pressed" from="Panel/VBoxContainer/Mudot/Open" to="." method="_on_open_pressed"]
+[connection signal="text_submitted" from="Panel/VBoxContainer/Name/Name" to="." method="_on_name_text_submitted"]
+[connection signal="pressed" from="Panel/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Panel/No" to="." method="_on_close_requested"]

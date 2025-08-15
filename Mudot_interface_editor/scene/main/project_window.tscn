@@ -59,19 +59,28 @@ text = "项目Mudot文件:"
 
 [node name="Mudot" type="LineEdit" parent="Panel/Mudot"]
 layout_mode = 0
-offset_left = 215.0
-offset_top = 4.0
-offset_right = 325.0
-offset_bottom = 29.0
+offset_left = 232.0
+offset_top = 7.0
+offset_right = 342.0
+offset_bottom = 37.0
 
-[node name="Button" type="Button" parent="Panel/Mudot"]
+[node name="Open" type="Button" parent="Panel/Mudot"]
 layout_mode = 0
-offset_left = 347.0
-offset_top = 4.0
-offset_right = 391.0
-offset_bottom = 29.0
+offset_left = 362.0
+offset_top = 6.0
+offset_right = 406.0
+offset_bottom = 36.0
 text = "打开"
+
+[node name="New" type="Button" parent="Panel/Mudot"]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 6.0
+offset_right = 469.0
+offset_bottom = 36.0
+text = "新建"
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="text_submitted" from="Panel/Mudot/Mudot" to="." method="_on_mudot_text_submitted"]
-[connection signal="pressed" from="Panel/Mudot/Button" to="." method="_on_mudot_pressed"]
+[connection signal="pressed" from="Panel/Mudot/Open" to="." method="_on_mudot_pressed"]
+[connection signal="pressed" from="Panel/Mudot/New" to="." method="_on_new_pressed"]

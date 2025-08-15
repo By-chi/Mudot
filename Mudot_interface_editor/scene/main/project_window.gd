@@ -23,6 +23,8 @@ func _load_property_set_UI_list()->void:
 	if !Global.current_mudot_file_path.is_absolute_path():
 		return
 	var data=Global.get_data_from_json(Global.current_mudot_file_path)
+	if data==null:
+		return
 	for i in property_name_list:
 		var type_str:String=i[1]
 		var node=load("res://scene/main/property_set/"+type_str+"/"+type_str+".tscn").instantiate()
@@ -52,6 +54,8 @@ func _change_project_property_json(property_name:String,property_value:Variant)-
 	if !Global.current_mudot_file_path.is_absolute_path():
 		return
 	var data=Global.get_data_from_json(Global.current_mudot_file_path)
+	if data==null:
+		return
 	if property_name_list[$Panel/ScrollContainer/VBoxContainer.get_node(property_name).get_index()][1] == "Color":
 		data[property_name]="#"+property_value.to_html()
 	elif property_name_list[$Panel/ScrollContainer/VBoxContainer.get_node(property_name).get_index()][1] == "Vector2":
@@ -103,3 +107,8 @@ var expand_script_dir_path:String:
 		_change_project_property_json("expand_script_dir_path",value)
 
 #endregion
+
+
+func _on_new_pressed() -> void:
+	var window:=preload("res://scene/main/new_project_window.tscn").instantiate()
+	add_child(window)

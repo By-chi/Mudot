@@ -1,8 +1,11 @@
-ProgressBar
 Button
+VBoxContainer
+Panel
+Window
+Control
+ProgressBar
 HBoxContainer
 Label
-VBoxContainer
 CanvasLayer
 Timer
 ScrollContainer

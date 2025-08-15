@@ -52,6 +52,10 @@ func get_data_from_json(path:String)->Variant:
 func load_scene_from_mudot(path:String)->void:
 	var data = get_data_from_json(path)
 	if data==null:
+		var window:=preload("res://scene/main/new_project_window.tscn").instantiate()
+		window.get_node("Panel/No").disabled=true
+		
+		add_child(window)
 		return
 	var node=main_node.main_scene.get_parent()
 	current_mudot_file_path=path
@@ -59,6 +63,7 @@ func load_scene_from_mudot(path:String)->void:
 	main_node.inspectoscope.hide_inspectoscope()
 	main_node.element_node_list.clear_elements()
 	var template_path = path.get_base_dir()+"/"+data["template_path"]
+	get_window().title=data["template_path"]
 	var scene=load(template_path).instantiate()
 	for i in scene.get_children():
 		i.re_init=false
@@ -129,7 +134,7 @@ func get_configfile(section: String, key: String,default: Variant = null)->Varia
 	var cfg:=ConfigFile.new()
 	cfg.load(CONFIG_FILE_PATH)
 	return cfg.get_value(section,key,default)
-static func create_if_missing(path:String)->void:
+func create_if_missing(path:String)->void:
 	var exists = DirAccess.dir_exists_absolute(path) || FileAccess.file_exists(path)
 	if exists:
 		return

@@ -1,8 +1,8 @@
 res://default_bus_layout.tres
-res://scene/main/main.tscn
+res://scene/global.gd
+res://scene/main/project_window.gd
+res://scene/main/new_project_window.tscn
 res://style/main.tres
+res://scene/main/new_project_window.gd
 res://scene/element.gd
-res://scene/main/property_set/property.gd
-res://scene/Global.gd
-res://scene/main/elements_grid.gd
-res://scene/main/element_node_list.gd
+res://scene/elements/条形音频可视化/element.gd
