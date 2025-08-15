@@ -1,5 +1,4 @@
-#项目安装教程(水)
-
+# 1. 项目安装教程(水)
 本文档将详细指导你如何从 GitHub 上获取并安装我的 Mudot 项目，适用于 Windows、macOS 和 Linux 三种主流操作系统。
 
 ## 1. 项目基础信息
@@ -38,14 +37,18 @@
 
 
 **准备工作(如果已安装对应版本跳过)**
-- 访问 [Godot引擎官网](https://godotengine.org)->[对应版本下载页面](https://godotengine.org/download/archive/4.5-beta1/)；
 
+- 访问 [Godot引擎官网](https://godotengine.org)->[对应版本下载页面](https://godotengine.org/download/archive/4.5-beta1/)；
 - 下载对应操作系统版本的Godot:
 <img src="installation_tutorial_texture/1.png" alt="图片" width="924" height="1054">
+
 - 解压下载的`Godot_v4.5-beta1_win64.exe.zip`
 - 打开解压后的`Godot_v4.5-beta1_win64.exe`
+
 **导入**
+
 - 在窗口上栏上点击导入按钮:
+
 <img src="installation_tutorial_texture/2.png" alt="图片" width="2020" height="212">
 
 ## 3. 从 GitHub 克隆项目
