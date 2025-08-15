@@ -15,19 +15,20 @@ ___
 > “没有什么好引的...”  
 
 
-## **核心内容**  
+## 核心内容
 一个播放器和一个编辑器
 
-### **1.1 核心观点**  
+### 1.1 核心观点
 播放器要求柔滑动画，  
 编辑器主张屎堆代码。
 
-### **1.2 图片展示**  
+### 1.2 图片展示
 <img src="icon.svg" alt="应用图标" width="100" height="100">  
 <img src="1.png" alt="播放器界面" width="700" height="700">  
 <img src="icon-1.svg" alt="编辑器图标" width="100" height="100">  
 <img src="2.png" alt="编辑器界面" width="700" height="700">  
-### **1.3 实用方法**
+
+### **1.3 食用方法**  
 开包(*.7z压缩包)即食
 
 ## **功能说明**  
@@ -44,14 +45,14 @@ ___
 ```
 project/
 ├── expand_script_dir/
-│   ├── LyricController.gd.md
-│   └── AudioVisualizationLinear.gd.md
+│   ├── LyricController.gd
+│   └── AudioVisualizationLinear.gd
 ├── src/
 │   ├── 1.png
 │   ├── 1.mp3
-│   ├── 1.tscn
+│   ├── 1.tscn(必须)
 │   ├── 1.lrc
-│   └── 1_variables.json
+│   └── 1_variables.json(自动生成)
 ```
 - 特色功能：目前没有[doge]  
 
@@ -65,4 +66,16 @@ project/
 |------|----------|  
 | 😑为什么如此简陋 | 因为要对标陋室铭 |  
 | 😑为什么这么多bug | 因为夏天开始写的,虫子就是多(●'◡'●) |  
-    
+
+
+| 教程 |
+|------|
+| [API文档](api.md) |
+| [安装指南](installation_tutorial.md) |
+| [使用教程](tutorials.md) |
+| [项目示例](ProjectExample/) |
+
+---
+
+*哎你看，今晚天上一颗星星都找不着，黑得吓人！*
+
