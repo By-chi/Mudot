@@ -70,7 +70,7 @@ project/
 
 | 教程 |
 |------|
-| [API文档](api.md) |
+| [API文档](api_tutoral/global.md) |
 | [安装指南](installation_tutorial.md) |
 | [使用教程](tutorials.md) |
 | [项目示例](ProjectExample/) |
