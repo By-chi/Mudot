@@ -85,7 +85,7 @@ git clone https://github.com/By-chi/Mudot.git
 |文档链接|
 |-------|
 | [项目介绍](README.md) |
-| [API文档](api.md) |
+| [API文档](api_tutoral/global.md) |
 | [使用教程](tutorials.md) |
 | [项目示例](ProjectExample/) |
 
